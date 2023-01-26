@@ -1,0 +1,32 @@
+NOTES ON CSS:
+
+The width of the ::marker scales with the font-size. So should the dropdown icon. In the mockup, the font-size is 16px, and the dropdown icon is 8px, hence the width of 0.5em.
+    dw = 0.5em
+
+The margins I used can be calculated by the following:
+
+Let mw be the default ::marker width, which is approximately measured as 0.375em.
+    mw = 0.375em
+
+Let mmr be the default ::marker margin-right, which is approximately measured as 1em.
+    mmr = 1em
+
+The ::marker and the dropdown icon should be aligned vertically, so the margin-left of the dropdown icon should be:
+    dml = - (dw - mw) / 2 = -0.0625em
+
+Then, to determine the margin-right (dmr) of the dropdown icon:
+    dml + dw + dmr = mml + mw + mmr
+    -0.0625em + 0.5em + dmr = 0 + 0.375em + 1em
+    dmr = 0.9375em
+
+New calcs:
+
+dw = 1em
+mw = 0.375em
+mmr = 1em
+
+dml = - (dw - mw) / 2 = - (1em - 0.375em) / 2 = - 0.3125em
+
+dml + dw + dmr = mml + mw + mmr
+-0.3125em + 1em + dmr = 0 + 0.375em + 1em
+dmr = 0.6875em

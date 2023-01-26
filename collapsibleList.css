@@ -1,0 +1,67 @@
+:root {
+    --collapse-li-duration: 0.3s;
+}
+
+.solution-article .article_body p.fd-toc+ul li {
+    padding-left: 0.3125em;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible {
+    transition: height var(--collapse-li-duration) ease-out;
+    overflow: hidden;
+    position: relative;
+    list-style: none;
+    background-color: white;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > ul {
+    transition: transform var(--collapse-li-duration) ease-out;
+    position: relative;
+    grid-column: 1 / -1;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > svg {
+    position: relative;
+    display: inline-block;
+/*  margin-left: -0.0625em;
+    margin-right: 0.9375em;
+    margin-top: 0.7em;
+    width: 0.5em; */
+    margin-left: -0.3125em;
+    margin-right: 0.6875em;
+    margin-top: 0.3em;
+    width: 1em;
+    cursor: pointer;
+    height: auto;
+    z-index: 2;
+    transition: transform var(--collapse-li-duration) ease-out;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > svg:is(:hover, :focus) path {
+    stroke: #112576;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible:not(.active) > svg {
+    transform: rotate(180deg);
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a {
+    position: relative;
+    z-index: 1;
+    background-color: white;
+}
+
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a::after
+{
+    content: '';
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: calc(100% + 1em);
+    top: 0;
+    left: -1em;
+    background-color: white;
+}
