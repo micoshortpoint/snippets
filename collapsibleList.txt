@@ -30,3 +30,10 @@ dml = - (dw - mw) / 2 = - (1em - 0.375em) / 2 = - 0.3125em
 dml + dw + dmr = mml + mw + mmr
 -0.3125em + 1em + dmr = 0 + 0.375em + 1em
 dmr = 0.6875em
+
+NOTES ON JS:
+
+Why does the opacity transition need to be faster when closing?
+Because the motion transitions are ease-out, fast at the beginning, slow at the end. I noticed that since the motion is fast at the beginning, the opacity transition is not noticed (element gets hidden quickly). So I just sped it up.
+
+

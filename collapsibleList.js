@@ -7,6 +7,16 @@ const liCollapseTransition = `height ${transitionDuration}s ease-out`;
 const toc = document.querySelector(`.fd-toc+ul`); // limit to toc only
 const hasChildLi = toc.querySelectorAll(`li.has-child`);
 
+// modify hrefs
+
+const modifyHref = (li) => {
+    const parentLink = li.querySelector(`:scope > a`);
+    const li0 = li.querySelectorAll(`:scope > ul > li`)[0];
+    const link0 = li0.querySelector(`:scope > a`);
+    link0.setAttribute(`href`, parentLink.getAttribute(`href`));
+    parentLink.setAttribute(`href`, ``);
+}
+
 // change list marker to dropdown
 
 const hidden = document.createElement(`div`);
@@ -49,12 +59,12 @@ const toggleCollapseList = (li) => {
         subUl.style.transform = `translate(0, ${finalTransformX}px)`;
     }
     
-    let opacTransDivisor = (li.classList.contains(`active`)) ? transitionDuration/ulLen/2 : transitionDuration/ulLen;
+    let opacTransDelay = (li.classList.contains(`active`)) ? transitionDuration/ulLen/2 : transitionDuration/ulLen; // faster transition. see notes
 
     const opacityTransitions = () => {
         for(let i = 0; i < ulLen; i++) {
-            let duration = (opacTransDivisor).toFixed(3) + `s`;
-            let delay = (i*opacTransDivisor).toFixed(3) + `s`;
+            let duration = (opacTransDelay).toFixed(3) + `s`;
+            let delay = (i*opacTransDelay).toFixed(3) + `s`;
             let ii = li.classList.contains(`active`) ? i : (ulLen - 1 - i);
             if(subUlLis[ii].classList.contains(`collapsible`)) {
                 subUlLis[ii].style.transition = `${liCollapseTransition}, opacity ${duration} linear ${delay}`;
@@ -80,9 +90,17 @@ const toggleCollapseList = (li) => {
 
 hasChildLi.forEach((li) => { 
     hasChildFilterLi(li);
+    modifyHref(li);
     li.classList.add(`active`);
     toggleCollapseList(li);
-    li.querySelector(`:scope > svg`).addEventListener(`click`, () => {
-        toggleCollapseList(li);
-    })
+});
+
+toc.addEventListener(`click`, (e) => {
+    let a = e.target.closest(`a`);
+    let svg = e.target.closest(`svg`);
+    if(!a && !svg) return;
+    let li = e.target.closest(`li`);
+    if(!li || !li.classList.contains(`collapsible`)) return;
+    e.preventDefault();
+    toggleCollapseList(li);
 });
