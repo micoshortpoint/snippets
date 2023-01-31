@@ -39,7 +39,7 @@
     transition: transform var(--collapse-li-duration) ease-out;
 }
 
-.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > svg:is(:hover, :focus) path {
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > svg:hover path {
     stroke: #112576;
 }
 
