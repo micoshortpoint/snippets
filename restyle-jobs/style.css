@@ -1,0 +1,504 @@
+:root {
+    --alice-blue: #DEEFFF;
+    --st-patricks-blue: #112576;
+    --shortpoint-blue: #3161D1;
+    --page-bg-white: #F5F5F5;
+    --text-black: #2B2F45;
+    --baby-blue-eyes: #A4C2F4;
+    --frostbite-pink: #EA43AA;
+    --neutral-dark: #04081B;
+    --alice-blue-ii: #F2FAFF;
+    
+}
+
+
+/* Theme will apply this. Remove later */
+
+
+body {
+    background-color: var(--page-bg-white);
+    color: var(--text-black);
+}
+
+h1 {
+    font-weight: 700;
+    color: var(--st-patricks-blue);
+}
+
+
+/* Section styles apply this. */
+
+
+h3 {
+    color: var(--shortpoint-blue);
+}
+
+main > div:first-child :is(h1, h2) {
+    align-self: center;
+}
+
+
+/* Custom css */
+
+
+/* General */
+
+* {
+    margin: 0;
+}
+
+body, p, li, div {
+    font-size: 1rem;
+    line-height: 1.5em;
+    color: var(--text-black);
+}
+
+h1 {
+    font-size: 72px;
+    font-size: calc(1rem + 56px);
+    line-height: 110%;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+    margin-bottom: calc(1rem + 16px);
+}
+
+h3 {
+    font-weight: 600;
+    font-size: 32px;
+    font-size: calc(1rem + 16px);
+    line-height: 115%;
+    letter-spacing: -0.01em;
+    margin:  56px 0 16px 0;
+    margin:  calc(1rem + 40px) 0 1rem 0;
+    color: var(--shortpoint-blue);
+}
+
+[data-cy="section-wrapper-padder"] {
+    padding-bottom: 40px;
+}
+
+
+/* Container */
+
+
+.sp-dev-css__container {
+    margin: 0 auto;
+    width: 100%;
+    max-width: calc(100% - 48px);
+}   
+
+@media (min-width: 768px) {
+    .sp-dev-css__container {
+        max-width: 704px;
+    }   
+}
+
+@media (min-width: 992px) {
+    .sp-dev-css__container {
+        max-width: 920px;
+    }   
+}
+
+@media (min-width: 1200px) {
+    .sp-dev-css__container {
+        max-width: 1100px;
+    }   
+}
+
+@media (min-width: 1400px) {
+    .sp-dev-css__container {
+        max-width: 1224px;
+    }   
+}
+
+
+/* General Buttons */
+
+
+button, [type="button"], [type="reset"], [type="submit"] {
+    display: block;
+}
+
+.sp-dev-css__btn {
+    width: 260px;
+    font-size: 20px;
+    font-size: calc(1rem + 4px);
+    line-height: 130%;
+    letter-spacing: -0.02em;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.sp-dev-css__btn-primary {
+    background-color: var(--shortpoint-blue);
+    color: #ffffff;
+    border: 1px solid var(--shortpoint-blue);
+}
+
+.sp-dev-css__btn-primary:hover {
+    background-color: var(--st-patricks-blue);
+    color: #ffffff;
+    border: 1px solid var(--st-patricks-blue);
+}
+
+.sp-dev-css__btn-primary-white {
+    background-color: #ffffff;
+    color: var(--shortpoint-blue);
+    border: 1px solid var(--shortpoint-blue);
+}
+.sp-dev-css__btn-primary-white:hover {
+    background-color: var(--st-patricks-blue);
+    color: #ffffff;
+    border: 1px solid var(--st-patricks-blue);
+}
+
+.sp-dev-css__btn-link {
+    background-color: #ffffff;
+    color: var(--shortpoint-blue);
+    border: none;
+    padding: 0;
+}
+
+.sp-dev-css__btn-link:hover {
+    background-color: #ffffff;
+    color: var(--st-patricks-blue);
+    border: none;
+}
+
+
+/* Headline section */
+
+
+.custom-css-style-first-section-background {
+    background-image: linear-gradient(var(--alice-blue), #ffffff);
+}
+
+main > div:first-child h2 {
+    display: inline-flex;
+    align-items: center;
+    color: var(--shortpoint-blue);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+main > div:first-child h2 * {
+    color: var(--shortpoint-blue);
+    letter-spacing: 0.06em;
+    margin-top: 0;
+}
+
+main > div:first-child h2 > * {
+    margin: 0 12px;
+}
+
+main > div:first-child h2 > span:first-child {
+    /*   Remote word   */
+    font-weight: 700;
+}
+
+main > div:first-child h2 > span:first-child > span {
+    padding: 0;
+}
+
+main > div:first-child h2 > span:nth-child(1) {
+    order: 1;
+}
+
+main > div:first-child h2 > span:nth-child(2) {
+    order: 2;
+}
+
+main > div:first-child h2 [data-cy="department-name"] {
+    padding: 10px 16px;
+    background-color: var(--alice-blue);
+    border-radius: 40px;
+    line-height: 100%;
+    margin: 0 12px;
+}
+
+
+/* Headline Section Navigation */
+
+
+.custom-css-style-job-section-navigation {
+    box-shadow: none;
+}
+
+.custom-css-style-job-section-navigation [role="tablist"] {
+    justify-content: center;
+}
+
+.custom-css-style-job-section-navigation [role="tablist"] button {
+    font-size: 30px;
+    font-size: calc(1rem + 14px);
+    color: var(--baby-blue-eyes);
+    font-weight: 500;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    width: auto;
+    max-width: none;
+}
+
+.custom-css-style-job-section-navigation [role="tablist"] button[data-selected] {
+    font-weight: 700;
+    color: var(--st-patricks-blue);
+    border-bottom: 3px solid var(--st-patricks-blue);
+}
+
+.custom-css-style-job-section-navigation [role="tablist"] button[data-cy="apply-button-nav"] {
+    position: relative;
+    color: transparent
+}
+
+.custom-css-style-job-section-navigation [role="tablist"] button[data-cy="apply-button-nav"]::after {
+    content: ".ation";
+    position: relative;
+}
+
+.custom-css-style-job-section-navigation [role="tablist"] button[data-cy="apply-button-nav"]::before {
+    color: var(--baby-blue-eyes);
+    content: "Application";
+    position: absolute;
+    left: 0;
+}
+
+
+/* Main section structure */
+
+
+@media (min-width: 1200px) {
+    .sp-dev-css__structure {
+        display: grid;
+        grid-template-columns: 704px minmax(0px, 394px);
+        gap: 48px;
+        align-items: start;
+        justify-content: space-between;
+    }
+}
+
+.sp-dev-css__structure-side {
+    padding: 46px 66px;
+    border: 1px solid var(--alice-blue);
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0px 10px 10px rgba(50, 98, 209, 0.1);
+}
+
+
+
+/* Main section structure main */
+
+h3:first-child {
+    margin-top: 0;
+}
+
+strong.sp-dev-css__h4, h4 {
+    display: block;
+    color: var(--st-patricks-blue);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 115%;
+    letter-spacing: -0.01em;
+    margin: 40px 0 16px 0;
+    margin: calc(1rem + 24px) 0 1rem 0;
+}
+
+
+/* Main section structure side */
+
+
+.sp-dev-css__structure-side {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-items: center;
+    gap: 26px;
+    text-align: center;
+}
+
+.sp-dev-css__structure-side > p:first-child {
+    margin: 0 0 20px 0;
+    font-weight: 700;
+    font-size: 18px;
+    font-size: calc(1rem + 2px);
+}
+
+
+/* Form page */
+
+
+/* Form page general */
+
+
+fieldset {
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+
+#offer-section form fieldset {
+    border-bottom: none;
+}
+
+#offer-section form legend {
+    color: var(--shortpoint-blue);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 115%;
+    letter-spacing: -0.01em;
+    margin: 56px 0 16px 0;
+    margin: calc(1rem + 40px) 0 1rem 0;
+}
+
+
+#offer-section form legend * {
+    color: var(--shortpoint-blue);
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 115%;
+    letter-spacing: -0.01em;
+}
+
+#offer-section form legend + p {
+    margin: 0 0 32px;
+    margin: 0 0 calc(1rem + 16px);
+    font-size: 1rem;
+}
+
+#offer-section form span.sp-dev-css__required-field-mark {
+    color: var(--frostbite-pink);
+}
+
+
+#offer-section form label {
+    color: var(--st-patricks-blue);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+#offer-section form input[type="checkbox"] + label {
+    padding-left: 40px;
+}
+
+#offer-section form input[type="radio"] + label {
+    padding-left: 40px;
+}
+
+
+#offer-section form label * {
+    color: var(--st-patricks-blue);
+}
+
+#offer-section form p  {
+    margin-bottom: 0.5rem;
+}
+
+#offer-section form h3 + p  {
+    margin-bottom: 32px;
+    margin-bottom: calc(1rem + 16px);
+}
+
+
+/* Form page inputs */
+
+#offer-section form :is(input, textarea) {
+    max-width: none;
+    width: 100%;
+    border: 1px solid var(--baby-blue-eyes);
+    padding: 8px 16px;
+    font-size: calc(14rem / 16);
+    color: var(--neutral-dark);
+    margin: 0;
+}
+
+#offer-section form :is(input, textarea)::placeholder {
+    color: var(--baby-blue-eyes);
+}
+
+#offer-section form input[type="tel"] {
+    margin-left: 0;
+}
+
+#offer-section form input[type="checkbox"] + * .sp-dev-css__checkbox  {
+    border-radius: 3px;
+}
+
+[data-cy="segment-legal-agreements"] .sp-dev-css__checkbox + div::after {
+    color: var(--frostbite-pink);
+}
+
+#offer-section form input[type="checkbox"] + * .sp-dev-css__checkbox svg path {
+    fill: #ffffff;
+}
+
+.sp-dev-css__file-input-container .ba-videorecorder-chooser-container {
+    border-radius: 8px;
+    background-color: var(--alice-blue-ii);
+}
+
+.sp-dev-css__small-w-input {
+    width: 392px;
+}
+
+
+/* Form page file inputs */
+
+
+#offer-section form input[type="file"] {
+    background-color: var(--alice-blue-ii);
+}
+
+.sp-dev-css__file-input-container {
+    width: 100%;
+    background-color: var(--alice-blue-ii);
+    border: 1px solid var(--baby-blue-eyes);
+    border-radius: 8px;
+}
+
+
+/* Form page video file inputs */
+
+
+.sp-dev-css__file-input-container [data-selector="video-recorder-container"] {
+    background-color: transparent;
+}
+
+.sp-dev-css__file-input-container .ba-recorder-theme-elevate.ba-videorecorder-container .ba-videorecorder-video {
+    background-color: transparent;
+}
+
+.sp-dev-css__file-input-container .ba-videorecorder-chooser-button-0 {
+    border-radius: 8px;
+    background-color: var(--shortpoint-blue);
+    border: 1px solid var(--shortpoint-blue);
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    padding: 8px 18px;
+    margin-bottom: 16px;
+}
+
+.sp-dev-css__file-input-container .ba-videorecorder-chooser-button-0 * {
+    color: #ffffff;
+}
+
+.sp-dev-css__file-input-container .ba-videorecorder-chooser-button-1 {
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid var(--shortpoint-blue);
+    color: var(--shortpoint-blue);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    padding: 8px 18px;
+}
+
+.sp-dev-css__file-input-container .ba-videorecorder-chooser-button-1 * {
+    color: var(--shortpoint-blue);
+}

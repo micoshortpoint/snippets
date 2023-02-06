@@ -1,0 +1,18 @@
+#3161D1 - primary blue - Brand/SP Primary/Blue/SP ShortPoint Blue
+#112576 - primary blue dark - Brand/SP Primary/Blue/SP St Patrick's Blue
+#DEEFFF - light blue - Alice Blue
+#A4C2F4 - Brand/SP Secondary/Blue/SP Baby Blue Eyes - used in border and inactive text
+#F5F5F5 - white background
+#DEEFFF -> #FFFFFF - gradient
+#F2FAFF - Brand/SP Secondary/Blue/SP Alice Blue ii - used in bg of upload panel
+#EA43AA - Brand/SP Secondary/Red/SP Frostbite Pink
+#D9E0E6 - (unknown gray)
+#2B2F45 - Text Black
+#EFF2FF - Brand / SP Pastel / Magnolia - used bg of upload panel - uploaded
+inactive button - pass through 30%
+#FFFFFF - button text
+#04081B - Brand / SP Primary / Neutral / Dark - used in input fields
+
+#3262D1 - drop shadow - opac 10% Y 10 blur 10
+
+button: normal = ShortPoint Blue, hover = St Patrick's Blue
