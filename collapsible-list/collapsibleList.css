@@ -44,7 +44,7 @@
 }
 
 .solution-article .article_body p.fd-toc+ul li.has-child.collapsible:not(.active) > svg {
-    transform: rotate(180deg);
+    transform: rotate(-90deg);
 }
 
 .solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a {
