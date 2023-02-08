@@ -56,7 +56,7 @@ main > div:first-child :is(h1, h2) {
 
 body, p, li, div {
     font-size: 1rem;
-    /* line-height: 1.5em; */
+    line-height: 1.5em;
     color: var(--text-black);
 }
 
@@ -285,13 +285,10 @@ button, [type="button"], [type="reset"], [type="submit"] {
 
 .custom-css-style-navigation-logo img {
     width: 100%;
-    /* object-fit: cover; */
 }
 
 .custom-css-style-navigation-logo {
     width:  140px;
-    /* height: 48px; */
-    /* align-self: center; */
 }
 
 .sp-dev-css__nav {
@@ -944,10 +941,6 @@ fieldset {
     width: 22px;
 }
 
-.ba-videorecorder-button-inner {
-    /* line-height:  100%; */
-}
-
 .ba-recorder-theme-elevate-dashboard .ba-videorecorder-settings .ba-videorecorder-circle-button * {
     line-height: 40px;    
 }
@@ -1002,6 +995,22 @@ img.ba-videoplayer-video {
     padding: 8px 12px;
     border-radius: 6px;
     background-color: transparent;
+    color: transparent;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+
+.ba-player-rerecord-button::after {
+    content: "Change file";
     color: #ffffff;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    width: max-content;
+    top: 0;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: transparent;
     border: 1px solid #ffffff;
 }
