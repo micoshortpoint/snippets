@@ -5,6 +5,10 @@ const liCollapseTransition = `height ${transitionDuration}s ease-out`;
 // find li.has-child
 
 const toc = document.querySelector(`.fd-toc+ul`); // limit to toc only
+const childUls = toc.querySelectorAll(`li > ul`);
+childUls.forEach((ul) => {
+    ul.parentElement.classList.add(`has-child`);
+});
 const hasChildLi = toc.querySelectorAll(`li.has-child`);
 
 // modify hrefs
@@ -95,6 +99,21 @@ hasChildLi.forEach((li) => {
     toggleCollapseList(li);
 });
 
+// Debounce from https://www.freecodecamp.org/news/javascript-debounce-example/#:~:text=In%20JavaScript%2C%20a%20debounce%20function,all%20use%20cases%20for%20debounce.
+let timer;
+const debounce_leading = (func, timeout = 300) => {
+    (() => {
+        if (!timer) {
+            func();
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            timer = undefined;
+        }, timeout);  
+    })();
+}
+
+
 toc.addEventListener(`click`, (e) => {
     let a = e.target.closest(`a`);
     let svg = e.target.closest(`svg`);
@@ -102,5 +121,5 @@ toc.addEventListener(`click`, (e) => {
     let li = e.target.closest(`li`);
     if(!li || !li.classList.contains(`collapsible`)) return;
     e.preventDefault();
-    toggleCollapseList(li);
+    debounce_leading(() => {toggleCollapseList(li)}, 300);
 });
