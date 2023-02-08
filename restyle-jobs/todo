@@ -1,0 +1,12 @@
+High Priority:
+
+- file input states [OK]
+- shapes [OK]
+- video file input state [OK]
+
+Low Priority:
+
+- Remove classes on elements you are adding new classes to [SOME]
+- File input text color [OK]
+- Check the order on the h2 small [OK]
+- Check if location exists [OK]
