@@ -26,15 +26,6 @@ const svgs = {
     <path d="M36 2V39.8864" stroke="#A4C2F4" stroke-width="2"/>
     <path d="M26.5508 11.4482L35.999 2L45.4475 11.4482" stroke="#A4C2F4" stroke-width="2"/>
     </svg>`,
-    videoRecordIcon : `<svg width="22" height="14" viewBox="0 0 22 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M20.7587 0.56558L14.0667 4.0438V1.09663C14.0667 0.490567 13.6166 0 13.0633 0H1.00442C0.449296 0 0 0.490567 0 1.09663V12.9028C0 13.5088 0.449498 14 1.00442 14H13.0633C13.6168 14 14.0667 13.5088 14.0667 12.9028V9.9568L20.7587 13.4348C21.3389 13.7162 22 13.2524 22 12.5523V1.44808C22 0.748352 21.3419 0.283584 20.7587 0.56558Z" fill="white"/>
-    </svg>`,
-    uploadIcon2 : `<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10.3848 15.451V1" stroke="#3161D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M13.8745 11.977L10.3728 15.451L6.87109 11.977" stroke="#3161D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M1.35352 13.5482V18.6458H19.3915V13.5482" stroke="#3161D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    `,
     trashIcon : `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M11.999 6.69873C11.999 6.14645 11.5513 5.69873 10.999 5.69873C10.4467 5.69873 9.99902 6.14645 9.99902 6.69873V17.9818C9.99902 18.5341 10.4467 18.9818 10.999 18.9818C11.5513 18.9818 11.999 18.5341 11.999 17.9818V6.69873Z" fill="#3161D1"/>
     <path d="M15.0714 5.70094C15.6225 5.73762 16.0395 6.21409 16.0028 6.76515L15.2517 18.0482C15.215 18.5993 14.7386 19.0163 14.1875 18.9796C13.6364 18.9429 13.2194 18.4665 13.2561 17.9154L14.0072 6.63231C14.0439 6.08125 14.5203 5.66426 15.0714 5.70094Z" fill="#3161D1"/>

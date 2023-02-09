@@ -646,16 +646,11 @@ fieldset {
 
 
 #offer-section form legend:not(.sp-dev-css__legend-label) {
-    font-size: 22px;
-    font-size: calc(1rem + 6px);
-    font-weight: 600;
-    line-height: 115%;
-    letter-spacing: -0.01em;
-    color: var(--shortpoint-blue);
     margin: 40px 0 16px 0;
     margin: calc(1rem + 24px) 0 1rem 0;
 }
 
+#offer-section form legend:not(.sp-dev-css__legend-label),
 #offer-section form legend:not(.sp-dev-css__legend-label) * {
     font-size: 22px;
     font-size: calc(1rem + 6px);
@@ -667,11 +662,10 @@ fieldset {
 
 @media (min-width: 600px) {
     #offer-section form legend:not(.sp-dev-css__legend-label) {
-        font-size: 26px;
-        font-size: calc(1rem + 10px);
         margin:  46px 0 16px 0;
         margin:  calc(1rem + 30px) 0 1rem 0;
     }
+    #offer-section form legend:not(.sp-dev-css__legend-label),
     #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 26px;
         font-size: calc(1rem + 10px);
@@ -680,12 +674,11 @@ fieldset {
 
 @media (min-width: 768px) {
     #offer-section form legend:not(.sp-dev-css__legend-label) {
-        font-size: 28px;
-        font-size: calc(1rem + 12px);
         margin:  48px 0 16px 0;
         margin:  calc(1rem + 32px) 0 1rem 0;
     }
-    #offer-section form legend:not(.sp-dev-css__legend-label) * {
+    #offer-section form legend:not(.sp-dev-css__legend-label),
+    #offer-section form legend:not(.sp-dev-css__legend-label)  * {
         font-size: 28px;
         font-size: calc(1rem + 12px);
     }  
@@ -693,12 +686,11 @@ fieldset {
 
 @media (min-width: 992px) {
     #offer-section form legend:not(.sp-dev-css__legend-label) {
-        font-size: 30px;
-        font-size: calc(1rem + 14px);
         margin:  50px 0 16px 0;
         margin:  calc(1rem + 34px) 0 1rem 0;
     }
 
+    #offer-section form legend:not(.sp-dev-css__legend-label),
     #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 30px;
         font-size: calc(1rem + 14px);
@@ -707,12 +699,11 @@ fieldset {
 
 @media (min-width: 1200px) {
     #offer-section form legend:not(.sp-dev-css__legend-label) {
-        font-size: 32px;
-        font-size: calc(1rem + 16px);
         margin:  56px 0 16px 0;
         margin:  calc(1rem + 40px) 0 1rem 0;
     }   
     
+    #offer-section form legend:not(.sp-dev-css__legend-label),
     #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 32px;
         font-size: calc(1rem + 16px);
@@ -745,7 +736,8 @@ fieldset {
 }
 
 
-#offer-section form label *, #offer-section form legend.sp-dev-css__legend-label * {
+#offer-section form label *, 
+#offer-section form legend.sp-dev-css__legend-label * {
     color: var(--st-patricks-blue);
 }
 
@@ -809,7 +801,7 @@ fieldset {
     background-color: var(--alice-blue-ii);
 }
 
-.sp-dev-css__small-w-input {
+#offer-section form .sp-dev-css__small-w-input {
     max-width: 392px;
 }
 
@@ -832,11 +824,9 @@ fieldset {
     transition: box-shadow 0.2s ease-out;
 }
 
-.sp-dev-css__file-input-container:hover, input:hover, textarea:hover {
-    box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
-}
-
-.sp-dev-css__file-input-container:focus, input:focus, textarea:focus {
+.sp-dev-css__file-input-container:is(:focus, :hover),
+ input:is(:focus, :hover), 
+ textarea:is(:focus, :hover) {
     box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
 }
 
@@ -857,7 +847,6 @@ fieldset {
     grid-row: 1 / 3;
     margin-bottom: 16px;
 }
-
 
 .sp-dev-css__file-input-container.sp-dev-css__file-input-filled {
     background-color: var(--magnolia);
@@ -923,11 +912,10 @@ fieldset {
     background-color: transparent;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 {
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0,
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
     border-radius: 8px;
-    background-color: var(--shortpoint-blue);
     border: 1px solid var(--shortpoint-blue);
-    color: #ffffff;
     font-weight: 600;
     letter-spacing: -0.01em;
     font-size: 1rem;
@@ -939,55 +927,71 @@ fieldset {
     min-width: 0;
 }
 
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 {
+    background-color: var(--shortpoint-blue);
+    border: 1px solid var(--shortpoint-blue);
+    color: #ffffff;
+}
+
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 * {
     color: #ffffff;
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
-    border-radius: 8px;
     background-color: transparent;
     border: 1px solid var(--shortpoint-blue);
     color: var(--shortpoint-blue);
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 150%;
-    letter-spacing: -0.01em;
-    padding: 8px 18px;
-    display: flex;
-    align-items: center;
-    min-width: 0;
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 * {
     color: var(--shortpoint-blue);
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i {
-    margin-left: 0.4em;
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before,
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1::before  {
+    content: "";
+    width: calc(1rem + 6px);
+    height: calc(1rem + 6px);
+    margin-right: 0.6em;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i::before {
-    margin: 0;
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before {
+    background-image: url(
+        "data:image/svg+xml,%3Csvg width='22' height='14' viewBox='0 0 22 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M20.7587 0.56558L14.0667 4.0438V1.09663C14.0667 0.490567 13.6166 0 13.0633 0H1.00442C0.449296 0 0 0.490567 0 1.09663V12.9028C0 13.5088 0.449498 14 1.00442 14H13.0633C13.6168 14 14.0667 13.5088 14.0667 12.9028V9.9568L20.7587 13.4348C21.3389 13.7162 22 13.2524 22 12.5523V1.44808C22 0.748352 21.3419 0.283584 20.7587 0.56558Z' fill='white'/%3E%3C/svg%3E"
+    );
 }
 
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1::before {
+    background-image: url(  
+        "data:image/svg+xml,%3Csvg width='21' height='20' viewBox='0 0 21 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.3848 15.451V1' stroke='%233161D1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.8745 11.977L10.3728 15.451L6.87109 11.977' stroke='%233161D1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.35352 13.5482V18.6458H19.3915V13.5482' stroke='%233161D1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    );
+}
 
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0:hover,
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover {
+    background-color: var(--st-patricks-blue);
+    border-color: var(--st-patricks-blue);
+    color: #ffffff;
+}
+
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover * {
+    color: #ffffff;
+}
+
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover::before {
+    background-image: url(
+        "data:image/svg+xml,%3Csvg width='21' height='20' viewBox='0 0 21 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0313 15.451V1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.521 11.977L10.0193 15.451L6.51758 11.977' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1 13.5481V18.6458H19.038V13.5481' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
+    );
+}
+
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i,
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 i {
-    margin-left: 0.4em;
+    display: none;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 i::before {
-    margin: 0;
-}
-
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 svg {
-    margin-right: 10px;
-    width: 22px;
-}
-
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 svg {
-    margin-right: 10px;
-    width: 22px;
-}
 
 .sp-dev-css__video-file-input-container .ba-recorder-theme-elevate-dashboard .ba-videorecorder-settings .ba-videorecorder-circle-button * {
     line-height: 40px;    
