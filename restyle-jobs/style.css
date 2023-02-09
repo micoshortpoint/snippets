@@ -190,7 +190,7 @@ h3 {
 button, [type="button"], [type="reset"], [type="submit"] {
     display: block;
     cursor: pointer;
-    transition: color 0.5s ease-out, background-color 0.5s ease-out;
+    transition: color 0.5s ease-out, background-color 0.5s ease-out, border-color 0.5s ease-out;
 }
 
 .sp-dev-css__btn {
@@ -222,7 +222,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
 .sp-dev-css__btn-primary:hover {
     background-color: var(--st-patricks-blue);
     color: #ffffff;
-    border: 1px solid var(--st-patricks-blue);
+    border-color: var(--st-patricks-blue);
 }
 
 .sp-dev-css__btn-primary-transparent {
@@ -236,7 +236,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
 .sp-dev-css__btn-primary-transparent:hover {
     background-color: var(--st-patricks-blue);
     color: #ffffff;
-    border: 1px solid var(--st-patricks-blue);
+    border-color: var(--st-patricks-blue);
 }
 
 .sp-dev-css__btn-link {
@@ -284,7 +284,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
 .sp-dev-css__btn-small-transparent:hover {
     background-color: var(--st-patricks-blue);
     color: #ffffff;
-    border: 1px solid var(--st-patricks-blue);
+    border-color: var(--st-patricks-blue);
 }
 
 .sp-dev-css__btn-small-transparent:hover svg path {
@@ -928,11 +928,11 @@ fieldset {
     display: flex;
     align-items: center;
     min-width: 0;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 {
     background-color: var(--shortpoint-blue);
-    border: 1px solid var(--shortpoint-blue);
     color: #ffffff;
 }
 
@@ -942,7 +942,6 @@ fieldset {
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
     background-color: transparent;
-    border: 1px solid var(--shortpoint-blue);
     color: var(--shortpoint-blue);
 }
 
@@ -959,6 +958,7 @@ fieldset {
     display: block;
     background-repeat: no-repeat;
     background-position: center;
+    transition: background-image 0.2s ease-out;
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before {
