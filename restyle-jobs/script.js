@@ -279,8 +279,7 @@ const svgs = {
     const videoInput = form.querySelector(`[data-selector="video-recorder-container"]`);
     // videoInput.classList.add( `sp-dev-css__video-file-input-container`);
     const videoInputApp = videoInput.closest(`[app]`);
-    videoInputApp.classList.add(`sp-dev-css__small-w-input`, `sp-dev-css__video-file-input-container`);
-    
+    videoInputApp.classList.add(`sp-dev-css__small-w-input`, `sp-dev-css__video-file-input-container`);    
     
     let videoInputContainer = videoInputApp;
     
@@ -291,16 +290,6 @@ const svgs = {
     fragment = document.createDocumentFragment();
     fragment.append(videoInputApp);
     videoInputContainer.parentElement.replaceChild(fragment, videoInputContainer);
-    
-    svg.outerHTML = svgs.videoRecordIcon;
-    svg = hidden.querySelector(`svg`);
-    const recordVideoBtn = videoInput.querySelector(`.ba-videorecorder-chooser-button-0`);
-    recordVideoBtn.prepend(svg.cloneNode(true));
-    
-    svg.outerHTML = svgs.uploadIcon2;
-    svg = hidden.querySelector(`svg`);
-    const uploadVideoBtn = videoInput.querySelector(`.ba-videorecorder-chooser-button-1`);
-    uploadVideoBtn.prepend(svg.cloneNode(true));
 })();
 
 

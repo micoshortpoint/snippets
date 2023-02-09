@@ -60,8 +60,6 @@ body, p, li, div {
     color: var(--text-black);
 }
 
-
-
 h1 {
     font-size: 40px;
     font-size: calc(1rem + 24px);
@@ -191,6 +189,8 @@ h3 {
 
 button, [type="button"], [type="reset"], [type="submit"] {
     display: block;
+    cursor: pointer;
+    transition: color 0.5s ease-out, background-color 0.5s ease-out;
 }
 
 .sp-dev-css__btn {
@@ -252,6 +252,21 @@ button, [type="button"], [type="reset"], [type="submit"] {
     border: none;
 }
 
+.sp-dev-css__btn-small {
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: var(--shortpoint-blue);
+    color: #ffffff;
+    border: 1px solid var(--shortpoint-blue);
+}
+
+.sp-dev-css__btn-small:hover {
+    background-color: var(--st-patricks-blue);
+    color: #ffffff;
+    border-color: var(--st-patricks-blue);
+}
+
 .sp-dev-css__btn-small-transparent {
     font-size:  1rem;
     padding: 8px 12px;
@@ -263,7 +278,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
 
 .sp-dev-css__btn-small-transparent svg {
     width: 18px;
-    height: auto
+    height: auto;
 }
 
 .sp-dev-css__btn-small-transparent:hover {
@@ -324,7 +339,10 @@ button, [type="button"], [type="reset"], [type="submit"] {
 }
 
 
-/* Headline section */
+/* Banner section */
+
+
+/* Banner background and shapes */
 
 
 .custom-css-style-first-section-background {
@@ -375,6 +393,9 @@ button, [type="button"], [type="reset"], [type="submit"] {
     left: 90%;
     top: 64%;
 }
+
+
+/* Banner details */
 
 
 main > div:first-child h2 {
@@ -459,7 +480,7 @@ main > div:first-child h2 .sp-dev-css__location-box > svg {
 }
 
 
-/* Headline Section Navigation */
+/* Banner Navigation */
 
 
 .custom-css-style-job-section-navigation {
@@ -871,6 +892,7 @@ fieldset {
     border: 1px solid var(--baby-blue-eyes);
     border-radius: 8px;
     overflow: hidden;
+    position: relative;
 }
 
 .sp-dev-css__video-file-input-container [data-selector="video-recorder-container"] {
@@ -898,6 +920,7 @@ fieldset {
     margin-bottom: 16px;
     display: flex;
     align-items: center;
+    min-width: 0;
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 * {
@@ -916,6 +939,7 @@ fieldset {
     padding: 8px 18px;
     display: flex;
     align-items: center;
+    min-width: 0;
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 * {
@@ -923,13 +947,21 @@ fieldset {
 }
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i {
-    display: none;
+    margin-left: 0.4em;
 }
+
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i::before {
+    margin: 0;
+}
+
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 i {
-    display: none;
+    margin-left: 0.4em;
 }
 
+.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 i::before {
+    margin: 0;
+}
 
 .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 svg {
     margin-right: 10px;
@@ -941,22 +973,34 @@ fieldset {
     width: 22px;
 }
 
-.ba-recorder-theme-elevate-dashboard .ba-videorecorder-settings .ba-videorecorder-circle-button * {
+.sp-dev-css__video-file-input-container .ba-recorder-theme-elevate-dashboard .ba-videorecorder-settings .ba-videorecorder-circle-button * {
     line-height: 40px;    
 }
 
+.sp-dev-css__video-file-input-container .ba-player-playbutton-container::after {
+    content: "";
+    width: 600%;
+    height: 600%;
+    background: linear-gradient(0deg, rgba(5, 13, 32, 0.4), rgba(5, 13, 32, 0.4)), linear-gradient(71.81deg, rgba(37, 247, 234, 0.5) 6.59%, rgba(144, 43, 244, 0.5) 80.53%);
+    background-blend-mode: normal, lighten;
+    box-shadow: 0px 12.9023px 23.2242px 7.74141px rgba(69, 121, 241, 0.4);
+    position: absolute;
+    left: -250%;
+    top: -250%;
+    z-index: -1;
+}
 
-.ba-videoplayer-noie8 .ba-player-playbutton-button {
+.sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-button {
     padding: 24px;
 }
 
-.ba-videoplayer-noie8 .ba-player-playbutton-button::after {
+.sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-button::after {
     line-height: initial;
     margin: 0;
     font-size: 30px;
 }
 
-.ba-videoplayer-noie8 .ba-player-playbutton-container {
+.sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-container {
     width: 78px;
     height: 78px;
     box-shadow: none;
@@ -965,28 +1009,20 @@ fieldset {
     border-radius: 50%;
 }
 
-.ba-videoplayer-overlay {
-    background: linear-gradient(0deg, rgba(5, 13, 32, 0.4), rgba(5, 13, 32, 0.4)), linear-gradient(71.81deg, rgba(37, 247, 234, 0.5) 6.59%, rgba(144, 43, 244, 0.5) 80.53%);
-    background-blend-mode: normal, lighten;
-    box-shadow: 0px 12.9023px 23.2242px 7.74141px rgba(69, 121, 241, 0.4);
-    border-radius: 3.8707px;
-}
-
-img.ba-videoplayer-video {
-    object-fit:  cover;
+.sp-dev-css__video-file-input-container img.ba-videoplayer-video {
+    object-fit: cover;
     height:  100%;
 }
 
-.ba-videoplayer-container div[ba-show="true"]:not([class]) {
+.sp-dev-css__video-file-input-container .ba-videoplayer-container div[ba-show="true"]:not([class]) {
     height: 100%;
 }
 
-
-.ba-player-rerecord-bar {
+.sp-dev-css__video-file-input-container .ba-player-rerecord-bar {
     background-color: transparent;
 }
 
-.ba-player-rerecord-button {
+.sp-dev-css__video-file-input-container .ba-player-rerecord-button {
     height: auto;
     line-height: initial;
     font-size: 1rem;
@@ -1000,8 +1036,7 @@ img.ba-videoplayer-video {
     position: relative;
 }
 
-
-.ba-player-rerecord-button::after {
+.sp-dev-css__video-file-input-container .ba-player-rerecord-button::after {
     content: "Change file";
     color: #ffffff;
     position: absolute;
@@ -1013,4 +1048,10 @@ img.ba-videoplayer-video {
     border-radius: 6px;
     background-color: transparent;
     border: 1px solid #ffffff;
+}
+
+.sp-dev-css__video-file-input-container video.ba-videoplayer-video {
+    height:  100%;
+    width:  100%;
+    object-fit: cover;
 }
