@@ -615,7 +615,7 @@ strong.sp-dev-css__h4, h4 {
         padding: 46px 66px;
         gap: 26px;
         position: sticky;
-        top: 24px;
+        top: 120px;
     }
     
     .sp-dev-css__structure-side > p:first-child {
