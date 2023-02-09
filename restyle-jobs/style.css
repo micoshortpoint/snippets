@@ -459,7 +459,7 @@ main > div:first-child h2 .sp-dev-css__location-box > svg {
 
 @media (min-width: 600px) {
     main > div:first-child h2 {
-        gap: 12px;
+        gap: 8px 12px;
         font-size: 14px;
         font-size: calc(14rem / 16);
     }
@@ -645,7 +645,7 @@ fieldset {
 }
 
 
-#offer-section form legend {
+#offer-section form legend:not(.sp-dev-css__legend-label) {
     font-size: 22px;
     font-size: calc(1rem + 6px);
     font-weight: 600;
@@ -656,7 +656,7 @@ fieldset {
     margin: calc(1rem + 24px) 0 1rem 0;
 }
 
-#offer-section form legend * {
+#offer-section form legend:not(.sp-dev-css__legend-label) * {
     font-size: 22px;
     font-size: calc(1rem + 6px);
     font-weight: 600;
@@ -666,54 +666,54 @@ fieldset {
 }
 
 @media (min-width: 600px) {
-    #offer-section form legend {
+    #offer-section form legend:not(.sp-dev-css__legend-label) {
         font-size: 26px;
         font-size: calc(1rem + 10px);
         margin:  46px 0 16px 0;
         margin:  calc(1rem + 30px) 0 1rem 0;
     }
-    #offer-section form legend * {
+    #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 26px;
         font-size: calc(1rem + 10px);
     }  
 }
 
 @media (min-width: 768px) {
-    #offer-section form legend {
+    #offer-section form legend:not(.sp-dev-css__legend-label) {
         font-size: 28px;
         font-size: calc(1rem + 12px);
         margin:  48px 0 16px 0;
         margin:  calc(1rem + 32px) 0 1rem 0;
     }
-    #offer-section form legend * {
+    #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 28px;
         font-size: calc(1rem + 12px);
     }  
 }
 
 @media (min-width: 992px) {
-    #offer-section form legend {
+    #offer-section form legend:not(.sp-dev-css__legend-label) {
         font-size: 30px;
         font-size: calc(1rem + 14px);
         margin:  50px 0 16px 0;
         margin:  calc(1rem + 34px) 0 1rem 0;
     }
 
-    #offer-section form legend * {
+    #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 30px;
         font-size: calc(1rem + 14px);
     }  
 }
 
 @media (min-width: 1200px) {
-    #offer-section form legend {
+    #offer-section form legend:not(.sp-dev-css__legend-label) {
         font-size: 32px;
         font-size: calc(1rem + 16px);
         margin:  56px 0 16px 0;
         margin:  calc(1rem + 40px) 0 1rem 0;
     }   
     
-    #offer-section form legend * {
+    #offer-section form legend:not(.sp-dev-css__legend-label) * {
         font-size: 32px;
         font-size: calc(1rem + 16px);
     }   
@@ -729,8 +729,8 @@ fieldset {
     color: var(--frostbite-pink);
 }
 
-
-#offer-section form label {
+#offer-section form label, 
+#offer-section form legend.sp-dev-css__legend-label {
     color: var(--st-patricks-blue);
     margin-bottom: 0.5rem;
     display: block;
@@ -745,7 +745,7 @@ fieldset {
 }
 
 
-#offer-section form label * {
+#offer-section form label *, #offer-section form legend.sp-dev-css__legend-label * {
     color: var(--st-patricks-blue);
 }
 
@@ -769,6 +769,7 @@ fieldset {
     font-size: calc(14rem / 16);
     color: var(--neutral-dark);
     margin: 0;
+    transition: box-shadow 0.2s ease-out;
 }
 
 #offer-section form :is(input, textarea)::placeholder {
@@ -828,12 +829,22 @@ fieldset {
     justify-content: start;
     justify-items: start;
     align-items: end;
+    transition: box-shadow 0.2s ease-out;
+}
+
+.sp-dev-css__file-input-container:hover, input:hover, textarea:hover {
+    box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
+}
+
+.sp-dev-css__file-input-container:focus, input:focus, textarea:focus {
+    box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
 }
 
 
-
-.sp-dev-css__file-input-container * {
+.sp-dev-css__file-input-container > div, .sp-dev-css__file-input-container > div span {
     text-align: left;
+    color: var(--st-patricks-blue);
+    font-weight: 400;
 }
 
 .sp-dev-css__file-input-container > div:last-of-type {
@@ -893,6 +904,11 @@ fieldset {
     border-radius: 8px;
     overflow: hidden;
     position: relative;
+    transition: 0.2s box-shadow ease-out;
+}
+
+.sp-dev-css__video-file-input-container:is(:focus, :hover) {
+    box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
 }
 
 .sp-dev-css__video-file-input-container [data-selector="video-recorder-container"] {

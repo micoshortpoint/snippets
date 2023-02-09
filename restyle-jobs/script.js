@@ -59,20 +59,16 @@ const svgs = {
 // Some cleanup
 
 (() => {
-    const headings = document.querySelectorAll(`h1, h2, h3, h4, h5, h6`);
-    headings.forEach((h) => {
-        h.classList.remove(...h.classList);
+    const cleanThem = document.querySelectorAll(`h1, h2, h3, h4, h5, h6, p, label, legend`);
+    cleanThem.forEach((c) => {
+        c.classList.remove(...c.classList);
     })
-    
-    const formPs = form.querySelectorAll(`p`);
-    formPs.forEach((p) => {
-       p.classList.remove(...p.classList) 
-    });
-    
-    const formLabels = form.querySelectorAll(`label`);
-    formLabels.forEach((label) => {
-       label.classList.remove(...label.classList);
-    });
+
+    const legends = form.querySelectorAll(`legend`);
+    legends.forEach((legend) => {
+        if(legend.innerText.length < 30) return;
+        legend.classList.add(`sp-dev-css__legend-label`);
+    })
 })();
 
 // Banner
@@ -277,7 +273,7 @@ const svgs = {
 
 (() => {
     const videoInput = form.querySelector(`[data-selector="video-recorder-container"]`);
-    // videoInput.classList.add( `sp-dev-css__video-file-input-container`);
+    if(!videoInput) return;
     const videoInputApp = videoInput.closest(`[app]`);
     videoInputApp.classList.add(`sp-dev-css__small-w-input`, `sp-dev-css__video-file-input-container`);    
     
