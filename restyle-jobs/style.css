@@ -548,6 +548,7 @@ main > div:first-child h2 .sp-dev-css__location-box > svg {
         gap: 48px;
         align-items: start;
         justify-content: space-between;
+        position: relative;
     }
 }
 
@@ -613,6 +614,8 @@ strong.sp-dev-css__h4, h4 {
     .sp-dev-css__structure-side {
         padding: 46px 66px;
         gap: 26px;
+        position: sticky;
+        top: 24px;
     }
     
     .sp-dev-css__structure-side > p:first-child {
