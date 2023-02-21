@@ -339,6 +339,28 @@ button, [type="button"], [type="reset"], [type="submit"] {
 }
 
 
+#menu--1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#menu--1 > :not(:last-child) {
+    flex: 1;
+}
+
+#menu--1 > :last-child {
+    width: 100%;
+}
+
+@media (max-width: 500px) {
+    #menu--1 > :last-child a {
+        display: block;
+        width: 100%;
+        max-width: none;
+    }    
+}
+
 /* Banner section */
 
 
@@ -416,6 +438,7 @@ main > div:first-child h2 * {
     color: var(--shortpoint-blue);
     letter-spacing: 0.06em;
     margin-top: 0;
+    background-color: transparent;
 }
 
 main > div:first-child h2 > * {

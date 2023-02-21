@@ -49,7 +49,7 @@ const svgs = {
 
 // Some cleanup
 
-(() => {
+function cleanup() {
     const cleanThem = document.querySelectorAll(`h1, h2, h3, h4, h5, h6, p, label, legend`);
     cleanThem.forEach((c) => {
         c.classList.remove(...c.classList);
@@ -60,12 +60,11 @@ const svgs = {
         if(legend.innerText.length < 30) return;
         legend.classList.add(`sp-dev-css__legend-label`);
     })
-})();
+}
 
 // Banner
 
-
-(() => {
+function banner() {
     const deptIcon = document.querySelector(`[data-cy="department-name"]`); 
     deptIcon.innerHTML = deptIcon.innerText; // removes the icon and cleans it up a bit
 
@@ -82,22 +81,23 @@ const svgs = {
     newLocationBox.append(locationBoxSvg);
     newLocationBox.append(strippedLocationBox);
     locationBox.parentElement.replaceChild(newLocationBox, locationBox);
-})();
+}
+
 
 // Banner bg
 
-(() => {
+function bannerBg() {
     const bannerBg = document.querySelector(`.custom-css-style-first-section-background`);
     const bannerBgShapes = document.createElement(`div`);
     bannerBgShapes.classList.add(`sp-dev-css__banner-bg-shapes`);
     bannerBgShapes.innerHTML = svgs.blueTriangle + svgs.greenRightTriangle + svgs.peachSquare + svgs.yellowSemiCircle;
     bannerBg.append(bannerBgShapes);
-})();
+}
 
 
 // Job description
 
-(() => {
+function jobDescription() {
     const strong2h4 = document.querySelectorAll(`#offer-section p > strong`);
     
     strong2h4.forEach((h4) => {
@@ -105,12 +105,12 @@ const svgs = {
             h4.classList.add(`sp-dev-css__h4`);
         }
     });
-})();
+}
 
 
 // Structure
 
-(() => {
+function structure() {
     const wrapperPadders = document.querySelectorAll(`[data-cy="section-wrapper-padder"]`);
     
     wrapperPadders.forEach((wp) => {
@@ -146,11 +146,11 @@ const svgs = {
     strippedMainBox.classList.add(`sp-dev-css__structure-main`);
     strippedSideBox.classList.add(`sp-dev-css__structure-side`, `sp-dev-css__default-side-box`);
 
-})();
+}
 
 // Nav structure
 
-(() => {
+function navStructure() {
     const navBar = document.querySelector(`[data-cy="navigation-section-position"]`);
     const container = navBar.querySelector(`[data-cy="navigation-section-grid-container"]`);
     container.classList.remove(...container.classList);
@@ -167,11 +167,11 @@ const svgs = {
     navBarBtn.forEach((btn) => {
         btn.classList.add(`sp-dev-css__btn`, `sp-dev-css__btn-small-transparent`);
     });
-})();
+}
 
 // Application form
 
-(() => {
+function applicationForm() {
     form.classList.add(`sp-dev-css__structure`);
     const formLegendSpan = form.querySelectorAll(`legend span, label span`);
     
@@ -192,11 +192,11 @@ const svgs = {
     form.prepend(formWrapper);
     formWrapper.classList.add(`sp-dev-css__fieldsets`, `sp-dev-css__structure-main`);
     formWrapper.nextElementSibling.classList.add(`sp-dev-css__submit-box`, `sp-dev-css__structure-side`);
-})();
+}
 
 // Application form - file inputs
 
-(() => {
+function applicationFormFileInputs() {
     const fileInputs = form.querySelectorAll(`input[type="file"]`);
     const nonVideoFileInputs = [];
     fileInputs.forEach((fi) => {
@@ -233,11 +233,11 @@ const svgs = {
             } 
         })
     })
-})();
+}
 
 // Application form - other inputs
 
-(() => {
+function applicationFormOtherInputs() {
     form.querySelectorAll(`.sp-dev-css__file-input-container`).forEach((f) => {
         f.addEventListener(`click`, (e) => {
             if(e.target.closest(`button[aria-label="Remove"]`)) f.classList.remove(`sp-dev-css__file-input-filled`);
@@ -257,12 +257,11 @@ const svgs = {
     checkboxInputs.forEach((c) => {
         c.parentElement.querySelector(`svg`).parentElement.classList.add(`sp-dev-css__checkbox`);
     });
-})();
-
+}
 
 // Video record
 
-(() => {
+function videoRecord() {
     const videoInput = form.querySelector(`[data-selector="video-recorder-container"]`);
     if(!videoInput) return;
     const videoInputApp = videoInput.closest(`[app]`);
@@ -277,12 +276,11 @@ const svgs = {
     fragment = document.createDocumentFragment();
     fragment.append(videoInputApp);
     videoInputContainer.parentElement.replaceChild(fragment, videoInputContainer);
-})();
-
+}
 
 // Sidebox
 
-(() => {
+function sideBox() {
     const sideBoxes = document.querySelectorAll(`.sp-dev-css__structure-side`);
     
     sideBoxes.forEach((box) => {
@@ -326,4 +324,12 @@ const svgs = {
     defaultSideTextP.innerText = defaultSideText;
     document.querySelector(`.sp-dev-css__default-side-box`).prepend(defaultSideTextP);
 
-})();
+}
+
+const readyFunctions = [cleanup, banner, bannerBg, jobDescription, structure, navStructure, applicationForm, applicationFormFileInputs, applicationFormOtherInputs, videoRecord, sideBox];
+
+function main() {
+    readyFunctions.forEach(f => {
+        f.apply();
+    });
+}
