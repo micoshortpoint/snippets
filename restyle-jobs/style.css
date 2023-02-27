@@ -41,6 +41,7 @@ main > div:first-child :is(h1, h2) {
 @media (min-width: 600px) {
     main > div:first-child :is(h1, h2) {
         align-self: center;
+        text-align: center;
     }
 }
 
@@ -48,10 +49,43 @@ main > div:first-child :is(h1, h2) {
 /* Custom css */
 
 
+/* Animations */
+
+@keyframes sp-dev-css__shapes-appear {
+    0% {
+        opacity: 0;
+        transform: translate3d(0, -20px, 0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+
 /* General */
 
 * {
     margin: 0;
+}
+
+
+main > div:first-child h1,
+main > div:first-child h2,
+.custom-css-style-job-section-navigation {
+    transition: opacity 1s ease-in;
+    opacity: 0;
+}
+
+main.sp-dev-css__ready-0 > div:first-child h1,
+main.sp-dev-css__ready-0 > div:first-child h2,
+main.sp-dev-css__ready-0 .custom-css-style-job-section-navigation {
+    opacity: 1;
+}
+
+main.sp-dev-css__ready-1 .sp-dev-css__banner-bg-shapes > svg {
+    /* animation: sp-dev-css__shapes-appear 2s cubic-bezier(0.78,-0.16, 0.35, 1.72); */
+    animation: sp-dev-css__shapes-appear 1s ease-in;
 }
 
 body, p, li, div {
@@ -146,10 +180,21 @@ h3 {
 
 
 [data-cy="section-wrapper-padder"] {
+    padding-top: 40px;
     padding-bottom: 40px;
 }
 
+@media (min-width: 768px) {
+    [data-cy="section-wrapper-padder"] {
+        padding-top: 60px;
+    }
+}
 
+@media (min-width: 992px) {
+    [data-cy="section-wrapper-padder"] {
+        padding-top: 80px;
+    }
+}
 /* Container */
 
 
@@ -472,6 +517,14 @@ main > div:first-child h2 [data-cy="department-name"] {
     margin: 0;
 }
 
+main > div:first-child h2 [data-cy="department-name"] svg {
+    display: none;
+}
+
+main > div:first-child h2 [data-cy="department-name"] > span:first-child {
+    display: none;
+}
+
 main > div:first-child h2 .sp-dev-css__location-box {
     display: flex;  
 }
@@ -563,17 +616,30 @@ main > div:first-child h2 .sp-dev-css__location-box > svg {
 
 /* Main section structure */
 
+.sp-dev-css__structure {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px 48px;
+    align-items: start;
+    justify-content: space-between;
+    position: relative;
+}
+
+.sp-dev-css__structure-main {
+    grid-column: 1;
+}
 
 @media (min-width: 1200px) {
     .sp-dev-css__structure {
-        display: grid;
         grid-template-columns: 704px minmax(0px, 394px);
-        gap: 48px;
-        align-items: start;
-        justify-content: space-between;
-        position: relative;
+    }
+
+    .sp-dev-css__structure-side {
+        grid-column: 2;
+        grid-row: 1;
     }
 }
+
 
 
 /* Main section structure main */
@@ -851,8 +917,8 @@ fieldset {
 }
 
 .sp-dev-css__file-input-container:is(:focus, :hover),
- input:is(:focus, :hover), 
- textarea:is(:focus, :hover) {
+input:is(:focus, :hover), 
+textarea:is(:focus, :hover) {
     box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
 }
 
@@ -912,7 +978,7 @@ fieldset {
 /* Form page video file inputs */
 
 
-.sp-dev-css__video-file-input-container {
+#offer-section .sp-dev-css__video-file-input-container {
     width: 100%;
     background-color: var(--alice-blue-ii);
     border: 1px solid var(--baby-blue-eyes);
@@ -922,24 +988,24 @@ fieldset {
     transition: 0.2s box-shadow ease-out;
 }
 
-.sp-dev-css__video-file-input-container:is(:focus, :hover) {
+#offer-section .sp-dev-css__video-file-input-container:is(:focus, :hover) {
     box-shadow: var(--shortpoint-blue) 0px 0px 0px 1px;
 }
 
-.sp-dev-css__video-file-input-container [data-selector="video-recorder-container"] {
+#offer-section .sp-dev-css__video-file-input-container [data-selector="video-recorder-container"] {
     background-color: transparent;
 }
 
-.sp-dev-css__video-file-input-container .ba-recorder-theme-elevate.ba-videorecorder-container .ba-videorecorder-video {
+#offer-section .sp-dev-css__video-file-input-container .ba-recorder-theme-elevate.ba-videorecorder-container .ba-videorecorder-video {
     background-color: transparent;
 }
 
-.sp-dev-css__video-file-input-container .ba-recorder-theme-elevate .ba-videorecorder-chooser-container {
+#offer-section .sp-dev-css__video-file-input-container .ba-recorder-theme-elevate .ba-videorecorder-chooser-container {
     background-color: transparent;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0,
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0,
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
     border-radius: 8px;
     border: 1px solid var(--shortpoint-blue);
     font-weight: 600;
@@ -954,26 +1020,26 @@ fieldset {
     transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 {
     background-color: var(--shortpoint-blue);
     color: #ffffff;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 * {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 * {
     color: #ffffff;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 {
     background-color: transparent;
     color: var(--shortpoint-blue);
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 * {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 * {
     color: var(--shortpoint-blue);
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before,
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1::before  {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before,
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1::before  {
     content: "";
     width: calc(1rem + 6px);
     height: calc(1rem + 6px);
@@ -984,46 +1050,46 @@ fieldset {
     transition: background-image 0.2s ease-out;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0::before {
     background-image: url(
         "data:image/svg+xml,%3Csvg width='22' height='14' viewBox='0 0 22 14' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M20.7587 0.56558L14.0667 4.0438V1.09663C14.0667 0.490567 13.6166 0 13.0633 0H1.00442C0.449296 0 0 0.490567 0 1.09663V12.9028C0 13.5088 0.449498 14 1.00442 14H13.0633C13.6168 14 14.0667 13.5088 14.0667 12.9028V9.9568L20.7587 13.4348C21.3389 13.7162 22 13.2524 22 12.5523V1.44808C22 0.748352 21.3419 0.283584 20.7587 0.56558Z' fill='white'/%3E%3C/svg%3E"
     );
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1::before {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1::before {
     background-image: url(  
         "data:image/svg+xml,%3Csvg width='21' height='20' viewBox='0 0 21 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.3848 15.451V1' stroke='%233161D1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.8745 11.977L10.3728 15.451L6.87109 11.977' stroke='%233161D1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.35352 13.5482V18.6458H19.3915V13.5482' stroke='%233161D1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
     );
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0:hover,
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0:hover,
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover {
     background-color: var(--st-patricks-blue);
     border-color: var(--st-patricks-blue);
     color: #ffffff;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover * {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover * {
     color: #ffffff;
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover::before {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1:hover::before {
     background-image: url(
         "data:image/svg+xml,%3Csvg width='21' height='20' viewBox='0 0 21 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0313 15.451V1' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M13.521 11.977L10.0193 15.451L6.51758 11.977' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1 13.5481V18.6458H19.038V13.5481' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"
     );
 }
 
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i,
-.sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 i {
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-0 i,
+#offer-section .sp-dev-css__video-file-input-container .ba-videorecorder-chooser-button-1 i {
     display: none;
 }
 
 
-.sp-dev-css__video-file-input-container .ba-recorder-theme-elevate-dashboard .ba-videorecorder-settings .ba-videorecorder-circle-button * {
+#offer-section .sp-dev-css__video-file-input-container .ba-recorder-theme-elevate-dashboard .ba-videorecorder-settings .ba-videorecorder-circle-button * {
     line-height: 40px;    
 }
 
-.sp-dev-css__video-file-input-container .ba-player-playbutton-container::after {
+#offer-section .sp-dev-css__video-file-input-container .ba-player-playbutton-container::after {
     content: "";
     width: 600%;
     height: 600%;
@@ -1036,17 +1102,17 @@ fieldset {
     z-index: -1;
 }
 
-.sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-button {
+#offer-section .sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-button {
     padding: 24px;
 }
 
-.sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-button::after {
+#offer-section .sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-button::after {
     line-height: initial;
     margin: 0;
     font-size: 30px;
 }
 
-.sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-container {
+#offer-section .sp-dev-css__video-file-input-container .ba-videoplayer-noie8 .ba-player-playbutton-container {
     width: 78px;
     height: 78px;
     box-shadow: none;
@@ -1055,20 +1121,20 @@ fieldset {
     border-radius: 50%;
 }
 
-.sp-dev-css__video-file-input-container img.ba-videoplayer-video {
+#offer-section .sp-dev-css__video-file-input-container img.ba-videoplayer-video {
     object-fit: cover;
     height:  100%;
 }
 
-.sp-dev-css__video-file-input-container .ba-videoplayer-container div[ba-show="true"]:not([class]) {
+#offer-section .sp-dev-css__video-file-input-container .ba-videoplayer-container div[ba-show="true"]:not([class]) {
     height: 100%;
 }
 
-.sp-dev-css__video-file-input-container .ba-player-rerecord-bar {
+#offer-section .sp-dev-css__video-file-input-container .ba-player-rerecord-bar {
     background-color: transparent;
 }
 
-.sp-dev-css__video-file-input-container .ba-player-rerecord-button {
+#offer-section .sp-dev-css__video-file-input-container .ba-player-rerecord-button {
     height: auto;
     line-height: initial;
     font-size: 1rem;
@@ -1082,7 +1148,7 @@ fieldset {
     position: relative;
 }
 
-.sp-dev-css__video-file-input-container .ba-player-rerecord-button::after {
+#offer-section .sp-dev-css__video-file-input-container .ba-player-rerecord-button::after {
     content: "Change file";
     color: #ffffff;
     position: absolute;
@@ -1096,8 +1162,94 @@ fieldset {
     border: 1px solid #ffffff;
 }
 
-.sp-dev-css__video-file-input-container video.ba-videoplayer-video {
+#offer-section .sp-dev-css__video-file-input-container video.ba-videoplayer-video {
     height:  100%;
     width:  100%;
     object-fit: cover;
+}
+
+
+/* Loading */
+
+
+[data-reach-tab-panel] {
+    position: relative;
+}
+
+[data-reach-tab-panel] > * {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+
+.sp-dev-css__loading {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    position: absolute;
+    top: 0;
+    z-index: 100;
+}
+
+main.sp-dev-css__ready-0 .sp-dev-css__loading {
+    opacity: 1;
+}
+
+main.sp-dev-css__ready-1 [data-reach-tab-panel] > * {
+    opacity: 1;
+}
+
+@keyframes sp-dev-css__loading {
+    0% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes sp-dev-css__loading-shine {
+    0% {
+        transform: translate3d(-100%, -100%, 0);
+    }
+    100% {
+        transform: translate3d(200%, 200%, 0);
+    }
+}
+
+.sp-dev-css__loading .sp-dev-css__structure-main, .sp-dev-css__loading .sp-dev-css__structure-side {
+    border-radius: 8px;
+    box-shadow: none;
+    opacity: 0;
+    background-color: var(--alice-blue);
+    animation: sp-dev-css__loading 2s ease-in-out 1s;
+    animation-iteration-count: infinite;
+}
+
+main.sp-dev-css__ready-1 .sp-dev-css__loading {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sp-dev-css__loading .sp-dev-css__structure-main {
+    height: 200px;
+}
+
+.sp-dev-css__loading  .sp-dev-css__loading-h {
+    height: 2.5rem;
+    grid-row: 1;
+}
+
+.sp-dev-css__loading .sp-dev-css__structure-side {
+    height: 360px;
+}
+
+@media (min-width: 1200px) {
+    .sp-dev-css__loading .sp-dev-css__structure-side {
+        grid-row: 1 / 4;
+    }
 }
