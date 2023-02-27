@@ -342,20 +342,6 @@ function main() {
     });
 }
 
-function testMain() {
-    let inputs = document.querySelectorAll(`input`);
-    let counter = 0;
-    inputs.forEach(i => {
-        if(i.getAttribute(`id`)) counter++;
-    })
-    if(!counter) return false;
-    inputs = document.querySelectorAll(`input`);
-    inputs.forEach(i => {
-        if(i.getAttribute(`id`)) counter--;
-    })
-    return counter == 0 ? true : false;
-}
-
 function testMain2() {
     let videoRecorder = document.querySelector(`[data-selector="video-recorder-container"]`);
     if(!videoRecorder) return false;
@@ -430,11 +416,9 @@ function readyForJS(testFunction, applyFunction, testArgs = []) {
 window.addEventListener(`load`, function() {
     globals();
     cleanup();
-    mainTag.classList.remove(`sp-dev-css__not-ready`);
     mainTag.classList.add(`sp-dev-css__ready-0`);
     if(!document.querySelector(`#offer-section`)) return;
     loader();
-    // readyForJS(testMain, main);
     readyForJS(testMain3, main, [document.querySelector(`[data-reach-tab-panel]`).getAttribute(`id`)])
     readyForJS(testMain2, videoRecord);
     setTimeout(() => {
