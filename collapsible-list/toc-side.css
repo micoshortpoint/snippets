@@ -2,14 +2,11 @@
     max-width: 390px;
     width: auto;
     margin-right: 0;
-    position: sticky;
-    top: 100px;
-
 }
 
 .solution-sidebar {
-    position: sticky;
     top: 40px;
+    position: sticky;
     align-self: flex-start;
 }
 
