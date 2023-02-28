@@ -34,7 +34,7 @@ function readyForJS(testFunction, applyFunction, testArgs = []) {
     let testResult = new Promise(function(resolve, reject) {
         let i = 0;
         function tester(finalCheck = false) {
-            if(i > 150) {
+            if(i > 200) {
                 resolve(false);
                 return false;
             }

@@ -2,14 +2,6 @@
 const transitionDuration = 0.3;
 const liCollapseTransition = `height ${transitionDuration}s ease-out`;
 
-// find li.has-child
-
-const toc = document.querySelector(`.fd-toc+ul`); // limit to toc only
-const childUls = toc.querySelectorAll(`li > ul`);
-childUls.forEach((ul) => {
-    ul.parentElement.classList.add(`has-child`);
-});
-const hasChildLi = toc.querySelectorAll(`li.has-child`);
 
 // modify hrefs
 
@@ -25,7 +17,7 @@ const modifyHref = (li) => {
 
 const hasChildFilterLi = (li) => {
     if(li.classList.contains(`collapsible`)) return;
-    
+
     const hidden = document.createElement(`div`);
     toc.append(hidden);
     hidden.style.display = `none`;
@@ -34,7 +26,7 @@ const hasChildFilterLi = (li) => {
     hidden.append(dropdownSvg);
     dropdownSvg.outerHTML =  `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 6L8 9L11 6" stroke="#3161D1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`; 
     dropdownSvg = hidden.querySelector(`svg`); // cloneable svg element
-    
+   
     li.classList.add(`collapsible`);
     li.prepend(dropdownSvg.cloneNode(true));
 }
@@ -92,36 +84,50 @@ const toggleCollapseList = (li) => {
 
 }
 
-// initialization
+function createToc(toc)  {
+    // find li.has-child
+    
+    const childUls = toc.querySelectorAll(`li > ul`);
+    childUls.forEach((ul) => {
+        ul.parentElement.classList.add(`has-child`);
+    });
+    const hasChildLi = toc.querySelectorAll(`li.has-child`);
+   
+    // initialization
 
-hasChildLi.forEach((li) => { 
-    hasChildFilterLi(li);
-    modifyHref(li);
-    li.classList.add(`active`);
-    toggleCollapseList(li);
-});
+    hasChildLi.forEach((li) => { 
+        hasChildFilterLi(li);
+        modifyHref(li);
+        li.classList.add(`active`);
+        toggleCollapseList(li);
+    });
 
-// Debounce from https://www.freecodecamp.org/news/javascript-debounce-example/#:~:text=In%20JavaScript%2C%20a%20debounce%20function,all%20use%20cases%20for%20debounce.
-let timer;
-const debounce_leading = (func, timeout = 300) => {
-    (() => {
-        if (!timer) {
-            func();
-        }
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            timer = undefined;
-        }, timeout);  
-    })();
+    // Debounce from https://www.freecodecamp.org/news/javascript-debounce-example/#:~:text=In%20JavaScript%2C%20a%20debounce%20function,all%20use%20cases%20for%20debounce.
+    let timer;
+    const debounce_leading = (func, timeout = 300) => {
+        (() => {
+            if (!timer) {
+                func();
+            }
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                timer = undefined;
+            }, timeout);  
+        })();
+    }
+
+
+    toc.addEventListener(`click`, (e) => {
+        let a = e.target.closest(`a`);
+        let svg = e.target.closest(`svg`);
+        if(!a && !svg) return;
+        let li = e.target.closest(`li`);
+        if(!li || !li.classList.contains(`collapsible`)) return;
+        e.preventDefault();
+        debounce_leading(() => {toggleCollapseList(li)}, 300);
+    });
+
 }
 
-
-toc.addEventListener(`click`, (e) => {
-    let a = e.target.closest(`a`);
-    let svg = e.target.closest(`svg`);
-    if(!a && !svg) return;
-    let li = e.target.closest(`li`);
-    if(!li || !li.classList.contains(`collapsible`)) return;
-    e.preventDefault();
-    debounce_leading(() => {toggleCollapseList(li)}, 300);
-});
+// const toc0 = document.querySelector(`.fd-toc+ul`); // limit to toc only
+// createToc(toc0);

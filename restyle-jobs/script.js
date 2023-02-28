@@ -318,7 +318,7 @@ function sideBox() {
     });
     
     // Sidebox texts
-    const submitBoxText = `Apply for a job now and become a part of amazing team.`;
+    const submitBoxText = `Apply for a job now and become a part of an amazing team.`;
     const defaultSideText = `World's best intranet sites are designed using ShortPoint`;
     
     const submitBoxTextP = document.createElement(`p`);

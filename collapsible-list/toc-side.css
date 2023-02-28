@@ -1,0 +1,23 @@
+.solution-article.solution-article-toc-container {
+    max-width: 390px;
+    width: auto;
+    margin-right: 0;
+    position: sticky;
+    top: 100px;
+
+}
+
+.solution-sidebar {
+    position: sticky;
+    top: 40px;
+    align-self: flex-start;
+}
+
+.solution-article-related_articles {
+    transition: opacity 0.5s ease-out;
+}
+
+
+.solution-sidebar .solution-article-toc-container {
+    transition: opacity 0.5s ease-out;
+}
