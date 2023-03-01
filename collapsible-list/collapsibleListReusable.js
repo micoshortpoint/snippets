@@ -84,6 +84,18 @@ const toggleCollapseList = (li) => {
 
 }
 
+
+const closeSiblingLis = (li) => {
+    const siblingLis = [...li.parentElement.children].filter(c => c != li);
+    
+    siblingLis.forEach((sibLi) => {
+        // console.log(sibLi);
+        if(!sibLi.classList.contains(`collapsible`)) return;
+        if(!sibLi.classList.contains(`active`)) return;
+        toggleCollapseList(sibLi);
+    })
+}
+
 function createToc(toc)  {
     // find li.has-child
     
@@ -124,10 +136,13 @@ function createToc(toc)  {
         let li = e.target.closest(`li`);
         if(!li || !li.classList.contains(`collapsible`)) return;
         e.preventDefault();
-        debounce_leading(() => {toggleCollapseList(li)}, 300);
+        debounce_leading(() => {
+            toggleCollapseList(li);
+            closeSiblingLis(li);
+        }, 300);
     });
 
 }
 
-// const toc0 = document.querySelector(`.fd-toc+ul`); // limit to toc only
+// const toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
 // createToc(toc0);

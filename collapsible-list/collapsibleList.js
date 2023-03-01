@@ -4,7 +4,7 @@ const liCollapseTransition = `height ${transitionDuration}s ease-out`;
 
 // find li.has-child
 
-const toc = document.querySelector(`.fd-toc+ul`); // limit to toc only
+const toc = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
 const childUls = toc.querySelectorAll(`li > ul`);
 childUls.forEach((ul) => {
     ul.parentElement.classList.add(`has-child`);
@@ -92,6 +92,18 @@ const toggleCollapseList = (li) => {
 
 }
 
+
+const closeSiblingLis = (li) => {
+    const siblingLis = [...li.parentElement.children].filter(c => c != li);
+    
+    siblingLis.forEach((sibLi) => {
+        // console.log(sibLi);
+        if(!sibLi.classList.contains(`collapsible`)) return;
+        if(!sibLi.classList.contains(`active`)) return;
+        toggleCollapseList(sibLi);
+    })
+}
+
 // initialization
 
 hasChildLi.forEach((li) => { 
@@ -123,5 +135,8 @@ toc.addEventListener(`click`, (e) => {
     let li = e.target.closest(`li`);
     if(!li || !li.classList.contains(`collapsible`)) return;
     e.preventDefault();
-    debounce_leading(() => {toggleCollapseList(li)}, 300);
+    debounce_leading(() => {
+        toggleCollapseList(li);
+        closeSiblingLis(li);
+    }, 300);
 });
