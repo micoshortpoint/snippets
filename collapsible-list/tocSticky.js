@@ -31,17 +31,26 @@ function relatedArticlesDisappear() {
     if(stickyTopValue < stickySidebar.getBoundingClientRect().top) {
         relatedArticles.style.opacity = ``;
         relatedArticles.style.position = ``;
+        relatedArticles.style.pointerEvents = ``;
     }
     else {
         relatedArticles.style.opacity = `0`; 
         relatedArticles.style.position = `absolute`;
+        relatedArticles.style.pointerEvents = `none`;
     }
     
 }
 
 function sidebarTocAppear() {
     const tocUl = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
-    scrolledPast(tocUl) ? sidebarToc.style.opacity = `` : sidebarToc.style.opacity = `0`;
+    if(scrolledPast(tocUl)) {
+        sidebarToc.style.opacity = ``;
+        sidebarToc.style.pointerEvents = ``;
+    } 
+    else {
+        sidebarToc.style.opacity = `0`;
+        sidebarToc.style.pointerEvents = `none`;
+    } 
 }
 
 document.addEventListener('scroll', () =>{

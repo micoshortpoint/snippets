@@ -17,6 +17,7 @@ const modifyHref = (li) => {
     const parentLink = li.querySelector(`:scope > a`);
     const li0 = li.querySelectorAll(`:scope > ul > li`)[0];
     const link0 = li0.querySelector(`:scope > a`);
+    if(!parentLink.getAttribute(`href`)) return;
     link0.setAttribute(`href`, parentLink.getAttribute(`href`));
     parentLink.setAttribute(`href`, ``);
 }

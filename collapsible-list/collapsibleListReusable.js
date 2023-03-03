@@ -2,6 +2,13 @@
 const transitionDuration = 0.3;
 const liCollapseTransition = `height ${transitionDuration}s ease-out`;
 
+function hrefFixes(toc) {
+    toc.querySelectorAll(`a`).forEach(a => {
+        let href = decodeURIComponent(a.getAttribute(`href`));
+        a.setAttribute(`href`, href);
+        a.setAttribute(`data-descriptive-href`, href);
+    })
+}
 
 // modify hrefs
 
@@ -9,7 +16,9 @@ const modifyHref = (li) => {
     const parentLink = li.querySelector(`:scope > a`);
     const li0 = li.querySelectorAll(`:scope > ul > li`)[0];
     const link0 = li0.querySelector(`:scope > a`);
-    link0.setAttribute(`href`, parentLink.getAttribute(`href`));
+    parentHref = parentLink.getAttribute(`href`);
+    if(!parentHref) return;
+    link0.setAttribute(`href`, parentHref);
     parentLink.setAttribute(`href`, ``);
 }
 
@@ -97,6 +106,8 @@ const closeSiblingLis = (li) => {
 }
 
 function createToc(toc)  {
+    hrefFixes(toc);
+
     // find li.has-child
     
     const childUls = toc.querySelectorAll(`li > ul`);
