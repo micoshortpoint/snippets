@@ -1,0 +1,9 @@
+Updated 6 March:
+
+CSS:
+
+Update the CSS added on the support site with the new `collapsibleList.css`. Also append the  `toc-side.css`.
+
+JS:
+
+Update the JS added on the support site with the `collapsibleListReusable.js`. Also append the `tocSticky.js` and `tocHighlight-4.js`.
