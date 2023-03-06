@@ -1,0 +1,48 @@
+.solution-article.solution-article-toc-container {
+    max-width: 390px;
+    width: auto;
+    margin-right: 0;
+}
+
+.solution-sidebar {
+    top: 40px;
+    position: sticky;
+    align-self: flex-start;
+}
+
+.solution-article-related_articles {
+    transition: opacity 0.5s ease-out;
+}
+
+
+.solution-sidebar .solution-article-toc-container {
+    transition: opacity 0.5s ease-out;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1rem;
+}
+
+p.fd-toc+ul[data-processing-selected="0"] .selected {
+    font-weight: 600;
+}
+/* 
+p.fd-toc+ul * {
+    transition: font-weight 0.5s ease-out;
+} */
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a::after
+{
+    background-color: transparent;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a
+{
+    background-color: transparent;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible 
+{
+    background-color: transparent;
+}

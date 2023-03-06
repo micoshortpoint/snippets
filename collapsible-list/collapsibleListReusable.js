@@ -106,6 +106,7 @@ const closeSiblingLis = (li) => {
 }
 
 function createToc(toc)  {
+    if(toc.getAttribute(`data-toc-collapse-enabled`) == `1`) return;
     hrefFixes(toc);
 
     // find li.has-child
@@ -153,7 +154,9 @@ function createToc(toc)  {
         }, 300);
     });
 
+    toc.setAttribute(`data-toc-collapse-enabled`, `1`);
+
 }
 
-// const toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
-// createToc(toc0);
+const toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
+createToc(toc0);

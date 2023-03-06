@@ -11,15 +11,14 @@ function createTocCopy() {
     solutionArticle.classList.add(`item`, `solution-article`, `solution-article-toc-container`);
     const articleBody = document.createElement(`div`);
     articleBody.classList.add(`article_body`);
-    articleBody.append(tocP.cloneNode(true), tocUl.cloneNode(true));
+    const newTocUl = tocUl.cloneNode(true);
+    newTocUl.setAttribute(`data-toc-collapse-enabled`, `0`);
+    articleBody.append(tocP.cloneNode(true), newTocUl);
     solutionArticle.append(articleBody);
     stickySidebar.append(solutionArticle);
     sidebarToc = document.querySelector(`.solution-article-toc-container`);
     sidebarToc.style.opacity = `0`;
 }
-
-createTocCopy();
-createToc(sidebarToc.querySelector(`.fd-toc+ul`));
 
 function scrolledPast(elem) {
     let rect = elem.getBoundingClientRect();
@@ -53,7 +52,15 @@ function sidebarTocAppear() {
     } 
 }
 
-document.addEventListener('scroll', () =>{
-    relatedArticlesDisappear();
-    sidebarTocAppear();
-});
+function initStickyToc() {
+    if(stickySidebar.querySelector(`.fd-toc+ul`)) return;
+    createTocCopy();
+    createToc(sidebarToc.querySelector(`.fd-toc+ul`));
+
+    document.addEventListener('scroll', () =>{
+        relatedArticlesDisappear();
+        sidebarTocAppear();
+    });
+}
+
+initStickyToc();
