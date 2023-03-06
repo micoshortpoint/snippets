@@ -16,8 +16,12 @@ const tocLinksSide = tocSide.querySelectorAll(`a`);
 const tocLinkHrefs = Array.prototype.map.call(tocLinksMain,
     (a => a.getAttribute(`href`)));
 
-const titleHeights = Array.prototype.map.call(subsectionTitles,
-    (t => t.getBoundingClientRect().top - document.body.getBoundingClientRect().top));
+let titleHeights;
+
+function calculateHeights() {
+    titleHeights = Array.prototype.map.call(subsectionTitles,
+       (t => t.getBoundingClientRect().top - document.body.getBoundingClientRect().top));
+}
 
 // Assuming headings, tocLinks, and headingsHeights indexes correspond properly
 // Optionally, first create toc dynamically based on the headings (to eliminate chance of mapping error)
@@ -123,10 +127,12 @@ function scrollingOverSubsections() {
 }
 
 function initTocHighlight() {
+    calculateHeights();
     let timer = null;
 
     tocMain.addEventListener(`click`, event => tocClickEvent(event, tocLinksMain));
     tocSide.addEventListener(`click`, event => tocClickEvent(event, tocLinksSide));
+    window.addEventListener(`resize`, calculateHeights);
     document.addEventListener(`scroll`, () => {
         if(timer !== null) {
             clearTimeout(timer);        
