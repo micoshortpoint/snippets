@@ -1,8 +1,13 @@
 const stickySidebar = document.querySelector('.solution-sidebar');
 const stickyTopValue = 40;
-stickySidebar.style.top = stickyTopValue + `px`;
 
 let sidebarToc;
+
+function stickySidebarPrep() {
+    if(!stickySidebar) return false;
+    stickySidebar.style.top = stickyTopValue + `px`;
+    return true;
+}
 
 function createTocCopy() {
     const tocP = document.querySelector(`.solution-article .article_body p.fd-toc`);
@@ -53,6 +58,8 @@ function sidebarTocAppear() {
 }
 
 function initStickyToc() {
+    if(!document.querySelector(`.fd-toc+ul`)) return;
+    if(!stickySidebarPrep()) return;
     if(stickySidebar.querySelector(`.fd-toc+ul`)) return;
     createTocCopy();
     createToc(sidebarToc.querySelector(`.fd-toc+ul`));

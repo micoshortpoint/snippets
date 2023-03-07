@@ -24,7 +24,7 @@ const modifyHref = (li) => {
 
 // change list marker to dropdown
 
-const hasChildFilterLi = (li) => {
+const hasChildFilterLi = (li, toc) => {
     if(li.classList.contains(`collapsible`)) return;
 
     const hidden = document.createElement(`div`);
@@ -105,7 +105,8 @@ const closeSiblingLis = (li) => {
     })
 }
 
-function createToc(toc)  {
+function createToc(toc) {
+    if(!toc) return;
     if(toc.getAttribute(`data-toc-collapse-enabled`) == `1`) return;
     hrefFixes(toc);
 
@@ -120,7 +121,7 @@ function createToc(toc)  {
     // initialization
 
     hasChildLi.forEach((li) => { 
-        hasChildFilterLi(li);
+        hasChildFilterLi(li, toc);
         modifyHref(li);
         li.classList.add(`active`);
         toggleCollapseList(li);

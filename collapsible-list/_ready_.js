@@ -24,7 +24,7 @@ const modifyHref = (li) => {
 
 // change list marker to dropdown
 
-const hasChildFilterLi = (li) => {
+const hasChildFilterLi = (li, toc) => {
     if(li.classList.contains(`collapsible`)) return;
 
     const hidden = document.createElement(`div`);
@@ -105,7 +105,8 @@ const closeSiblingLis = (li) => {
     })
 }
 
-function createToc(toc)  {
+function createToc(toc) {
+    if(!toc) return;
     if(toc.getAttribute(`data-toc-collapse-enabled`) == `1`) return;
     hrefFixes(toc);
 
@@ -120,7 +121,7 @@ function createToc(toc)  {
     // initialization
 
     hasChildLi.forEach((li) => { 
-        hasChildFilterLi(li);
+        hasChildFilterLi(li, toc);
         modifyHref(li);
         li.classList.add(`active`);
         toggleCollapseList(li);
@@ -161,13 +162,16 @@ function createToc(toc)  {
 const toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
 createToc(toc0);
 
-
-
 const stickySidebar = document.querySelector('.solution-sidebar');
 const stickyTopValue = 40;
-stickySidebar.style.top = stickyTopValue + `px`;
 
 let sidebarToc;
+
+function stickySidebarPrep() {
+    if(!stickySidebar) return false;
+    stickySidebar.style.top = stickyTopValue + `px`;
+    return true;
+}
 
 function createTocCopy() {
     const tocP = document.querySelector(`.solution-article .article_body p.fd-toc`);
@@ -218,6 +222,8 @@ function sidebarTocAppear() {
 }
 
 function initStickyToc() {
+    if(!document.querySelector(`.fd-toc+ul`)) return;
+    if(!stickySidebarPrep()) return;
     if(stickySidebar.querySelector(`.fd-toc+ul`)) return;
     createTocCopy();
     createToc(sidebarToc.querySelector(`.fd-toc+ul`));
@@ -232,35 +238,41 @@ initStickyToc();
 
 
 const article = document.querySelector(`#article-body`);
+let subsectionTitles, subsectionIds, tocMain, tocSide, tocLinksMain, tocLinksSide, tocLinkHrefs, titleHeights;
 
-const subsectionTitles = article.querySelectorAll(`h2[id], h3[id], h4[id], h5[id], h6[id]`);
+function tocCaching() {
+    if(!article) return false;
+    subsectionTitles = article.querySelectorAll(`h2[id], h3[id], h4[id], h5[id], h6[id]`);
+    
+    subsectionIds = Array.prototype.map.call(subsectionTitles,
+        (t => t.getAttribute(`id`)));
+    
+    tocMain = article.querySelector(`p.fd-toc+ul`);
+    
+    tocSide = document.querySelector(`.solution-sidebar p.fd-toc+ul`);
+    
+    tocLinksMain = tocMain.querySelectorAll(`a`);
+    
+    tocLinksSide = tocSide.querySelectorAll(`a`);
+    
+    tocLinkHrefs = Array.prototype.map.call(tocLinksMain,
+        (a => a.getAttribute(`href`)));
 
-const subsectionIds = Array.prototype.map.call(subsectionTitles,
-    (t => t.getAttribute(`id`)));
+    calculateHeights();
 
-const tocMain = article.querySelector(`p.fd-toc+ul`);
-
-const tocSide = document.querySelector(`.solution-sidebar p.fd-toc+ul`);
-
-const tocLinksMain = tocMain.querySelectorAll(`a`);
-
-const tocLinksSide = tocSide.querySelectorAll(`a`);
-
-const tocLinkHrefs = Array.prototype.map.call(tocLinksMain,
-    (a => a.getAttribute(`href`)));
-
-let titleHeights;
+    return true;
+}
 
 function calculateHeights() {
     titleHeights = Array.prototype.map.call(subsectionTitles,
-       (t => t.getBoundingClientRect().top - document.body.getBoundingClientRect().top));
+        (t => t.getBoundingClientRect().top - document.body.getBoundingClientRect().top));
 }
 
 // Assuming headings, tocLinks, and headingsHeights indexes correspond properly
 // Optionally, first create toc dynamically based on the headings (to eliminate chance of mapping error)
 
 function tocItemSelect(item) {
-    console.log(item);
+    // console.log(item);
     const parentToc = item.closest(`p.fd-toc+ul`);
     parentToc.setAttribute(`data-processing-selected`, `1`);
     const currentSelected = parentToc.querySelector(`.selected.main-selected-leaf`);
@@ -293,7 +305,7 @@ function proximityOf(num, arr) {
     let a = 0
     let z = arr.length - 1;
     let m = Math.floor((z + a) / 2);
-    console.log(a, arr[a], m, arr[m], z, arr[z]);
+    // console.log(a, arr[a], m, arr[m], z, arr[z]);
     let located = false;
     if(num >= arr[z]) return z;
     if(num <= arr[a]) return a;
@@ -312,12 +324,12 @@ function proximityOf(num, arr) {
         if(num > arr[m]) {
             a = m;
             m = Math.floor((z + a) / 2);
-            console.log(a, arr[a], m, arr[m], z, arr[z]);
+            // console.log(a, arr[a], m, arr[m], z, arr[z]);
         }
         else {
             z = m;
             m = Math.floor((z + a) / 2);
-            console.log(a, arr[a], m, arr[m], z, arr[z]);
+            // console.log(a, arr[a], m, arr[m], z, arr[z]);
         }
     }
 
@@ -344,8 +356,8 @@ function tocClickEvent(event, linkArr) {
     event.preventDefault();
     let newIdIndex = Array.prototype.indexOf.call(linkArr, link);
     while(linkArr[newIdIndex].parentElement.parentElement.parentElement.classList.contains(`collapsible`)) {
-        console.log(`newIdIndex`, newIdIndex);
-        console.log(linkArr[newIdIndex]);
+        // console.log(`newIdIndex`, newIdIndex);
+        // console.log(linkArr[newIdIndex]);
         newIdIndex -= 1;
     }
     const newId = subsectionIds[newIdIndex];
@@ -360,7 +372,8 @@ function scrollingOverSubsections() {
 }
 
 function initTocHighlight() {
-    calculateHeights();
+    if(!tocCaching()) return;
+
     let timer = null;
 
     tocMain.addEventListener(`click`, event => tocClickEvent(event, tocLinksMain));
