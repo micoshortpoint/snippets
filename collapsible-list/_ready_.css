@@ -1,0 +1,95 @@
+:root {
+    --collapse-li-duration: 0.3s;
+}
+
+.solution-article .article_body p.fd-toc+ul li {
+    padding-left: 0.3125em;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible {
+    transition: height var(--collapse-li-duration) ease-out;
+    overflow: hidden;
+    position: relative;
+    list-style: none;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > ul {
+    transition: transform var(--collapse-li-duration) ease-out;
+    position: relative;
+    grid-column: 1 / -1;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > svg {
+    position: relative;
+    display: inline-block;
+    margin-left: -0.3125em;
+    margin-right: 0.6875em;
+    margin-top: 0.3em;
+    width: 1em;
+    cursor: pointer;
+    height: auto;
+    z-index: 2;
+    transition: transform var(--collapse-li-duration) ease-out;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > svg:hover path {
+    stroke: #112576;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible:not(.active) > svg {
+    transform: rotate(-90deg);
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a {
+    position: relative;
+    z-index: 1;
+    color: #363E61;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a:hover {
+    text-decoration: none;
+    color: #363E61;
+}
+
+.solution-article .article_body p.fd-toc+ul li.has-child.collapsible > a::after
+{
+    content: '';
+    position: absolute;
+    z-index: -1;
+    height: 100%;
+    width: calc(100% + 1em);
+    top: 0;
+    left: -1em;
+}
+
+.solution-article.solution-article-toc-container {
+    max-width: 390px;
+    width: auto;
+    margin-right: 0;
+}
+
+.solution-sidebar {
+    top: 40px;
+    position: sticky;
+    align-self: flex-start;
+}
+
+.solution-article-related_articles {
+    transition: opacity 0.5s ease-out;
+}
+
+
+.solution-sidebar .solution-article-toc-container {
+    transition: opacity 0.5s ease-out;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1rem;
+}
+
+p.fd-toc+ul[data-processing-selected="0"] .selected {
+    font-weight: 600;
+}

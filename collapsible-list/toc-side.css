@@ -27,7 +27,3 @@ html {
 p.fd-toc+ul[data-processing-selected="0"] .selected {
     font-weight: 600;
 }
-/* 
-p.fd-toc+ul * {
-    transition: font-weight 0.5s ease-out;
-} */
