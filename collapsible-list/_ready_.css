@@ -76,8 +76,9 @@
     align-self: flex-start;
 }
 
-.solution-article-related_articles {
+.solution-sidebar > .solution-article-related_articles {
     transition: opacity 0.5s ease-out;
+    position: absolute;
 }
 
 

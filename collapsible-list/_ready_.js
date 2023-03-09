@@ -7,6 +7,7 @@ function hrefFixes(toc) {
         let href = decodeURIComponent(a.getAttribute(`href`));
         a.setAttribute(`href`, href);
         a.setAttribute(`data-descriptive-href`, href);
+        a.removeAttribute(`target`);
     })
 }
 
@@ -143,6 +144,7 @@ function createToc(toc) {
 
 
     toc.addEventListener(`click`, (e) => {
+        if(toc.getAttribute(`data-toc-visible`) == `0`) return;
         let a = e.target.closest(`a`);
         let svg = e.target.closest(`svg`);
         if(!a && !svg) return;
@@ -176,12 +178,17 @@ function stickySidebarPrep() {
 function createTocCopy() {
     const tocP = document.querySelector(`.solution-article .article_body p.fd-toc`);
     const tocUl = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+    tocUl.setAttribute(`data-toc-visible`, `1`);
+
     const solutionArticle = document.createElement(`div`);
     solutionArticle.classList.add(`item`, `solution-article`, `solution-article-toc-container`);
+
     const articleBody = document.createElement(`div`);
     articleBody.classList.add(`article_body`);
+
     const newTocUl = tocUl.cloneNode(true);
     newTocUl.setAttribute(`data-toc-collapse-enabled`, `0`);
+
     articleBody.append(tocP.cloneNode(true), newTocUl);
     solutionArticle.append(articleBody);
     stickySidebar.append(solutionArticle);
@@ -194,30 +201,37 @@ function scrolledPast(elem) {
     return rect.bottom <= 0;
 }
 
-function relatedArticlesDisappear() {
+function relatedArticlesDisappear(disappear) {
     const relatedArticles = document.querySelector(`.solution-article-related_articles`);
-    if(stickyTopValue < stickySidebar.getBoundingClientRect().top) {
-        relatedArticles.style.opacity = ``;
-        relatedArticles.style.position = ``;
-        relatedArticles.style.pointerEvents = ``;
-    }
-    else {
+    if(disappear) {
         relatedArticles.style.opacity = `0`; 
         relatedArticles.style.position = `absolute`;
         relatedArticles.style.pointerEvents = `none`;
+    }
+    else {
+        relatedArticles.style.opacity = ``;
+        relatedArticles.style.position = ``;
+        relatedArticles.style.pointerEvents = ``;
     }
     
 }
 
 function sidebarTocAppear() {
-    const tocUl = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
-    if(scrolledPast(tocUl)) {
+    const tocMain = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+    const tocSide = document.querySelector(`.solution-sidebar p.fd-toc+ul`);
+    if(scrolledPast(tocMain)) {
+        relatedArticlesDisappear(true);
         sidebarToc.style.opacity = ``;
         sidebarToc.style.pointerEvents = ``;
+        tocMain.setAttribute(`data-toc-visible`, `0`);
+        tocSide.setAttribute(`data-toc-visible`, `1`);
     } 
     else {
         sidebarToc.style.opacity = `0`;
         sidebarToc.style.pointerEvents = `none`;
+        tocMain.setAttribute(`data-toc-visible`, `1`);
+        tocSide.setAttribute(`data-toc-visible`, `0`);
+        relatedArticlesDisappear(false);
     } 
 }
 
@@ -229,7 +243,6 @@ function initStickyToc() {
     createToc(sidebarToc.querySelector(`.fd-toc+ul`));
 
     document.addEventListener('scroll', () =>{
-        relatedArticlesDisappear();
         sidebarTocAppear();
     });
 }
@@ -239,17 +252,20 @@ initStickyToc();
 
 const article = document.querySelector(`#article-body`);
 let subsectionTitles, subsectionIds, tocMain, tocSide, tocLinksMain, tocLinksSide, tocLinkHrefs, titleHeights;
+let activeToc;
 
 function tocCaching() {
     if(!article) return false;
-    subsectionTitles = article.querySelectorAll(`h2[id], h3[id], h4[id], h5[id], h6[id]`);
+    subsectionTitles = article.querySelectorAll(`h1[id]:not([id=""]):not(.solution-article-title), h2[id]:not([id=""]), h3[id]:not([id=""]), h4[id]:not([id=""]), h5[id]:not([id=""]), h6[id]:not([id=""])`);
+    if(subsectionTitles.length < 1) return false;
     
     subsectionIds = Array.prototype.map.call(subsectionTitles,
         (t => t.getAttribute(`id`)));
     
     tocMain = article.querySelector(`p.fd-toc+ul`);
-    
     tocSide = document.querySelector(`.solution-sidebar p.fd-toc+ul`);
+
+    if(!tocMain || !tocSide) return false;
     
     tocLinksMain = tocMain.querySelectorAll(`a`);
     
@@ -258,6 +274,12 @@ function tocCaching() {
     tocLinkHrefs = Array.prototype.map.call(tocLinksMain,
         (a => a.getAttribute(`href`)));
 
+    if(tocMain.getAttribute(`data-toc-visible`) == `1`) {
+        activeToc = tocMain;
+    }
+    else {
+        activeToc = tocSide;
+    }
     calculateHeights();
 
     return true;
@@ -281,6 +303,7 @@ function tocItemSelect(item) {
         let currentSelectedParent = currentSelected.parentElement.closest(`li.collapsible`);
         while(currentSelectedParent) {
             // currentSelectedParent.querySelector(`:scope > a`).classList.remove(`selected`);
+            // console.log(`ISSUE: while  on tocItemSelect 1`)
             currentSelectedParent = currentSelectedParent.parentElement.closest(`li.collapsible`);
         }
     }
@@ -288,6 +311,7 @@ function tocItemSelect(item) {
     item.classList.add(`selected`, `main-selected-leaf`);
     let parentLi = item.parentElement.closest(`li.collapsible`);
     while(parentLi) {
+        // console.log(`ISSUE: while  on tocItemSelect 2`)
         if(!parentLi.classList.contains(`active`)) {
             toggleCollapseList(parentLi);
             closeSiblingLis(parentLi);
@@ -302,6 +326,7 @@ function tocItemSelect(item) {
 
 function proximityOf(num, arr) {
     // binary search;
+    if(arr.length < 1) return;
     let a = 0
     let z = arr.length - 1;
     let m = Math.floor((z + a) / 2);
@@ -310,6 +335,7 @@ function proximityOf(num, arr) {
     if(num >= arr[z]) return z;
     if(num <= arr[a]) return a;
     while(!located) {
+        // console.log(`ISSUE: while  on proximityOf`)
         if(z - a == 0) {
             located = true;
             // console.log(`answer`, a);
@@ -338,11 +364,16 @@ function proximityOf(num, arr) {
 
 function focusAt(hIndex) {
     while(hIndex > 0 && subsectionTitles[hIndex - 1].getBoundingClientRect().top > 0) {
+        // console.log(`ISSUE: while  on focusAt`)
         hIndex -= 1;
         // correction for titles still visible and closer to the top of the screen
     }
-    tocItemSelect(tocLinksSide[hIndex]);
-    tocItemSelect(tocLinksMain[hIndex]);
+    if(activeToc == tocMain) {
+        tocItemSelect(tocLinksMain[hIndex]);
+    }
+    else {
+        tocItemSelect(tocLinksSide[hIndex]);
+    }
 }
 
 
@@ -356,6 +387,7 @@ function tocClickEvent(event, linkArr) {
     event.preventDefault();
     let newIdIndex = Array.prototype.indexOf.call(linkArr, link);
     while(linkArr[newIdIndex].parentElement.parentElement.parentElement.classList.contains(`collapsible`)) {
+        // console.log(`ISSUE: while  on tocClickEvent`)
         // console.log(`newIdIndex`, newIdIndex);
         // console.log(linkArr[newIdIndex]);
         newIdIndex -= 1;
@@ -366,6 +398,11 @@ function tocClickEvent(event, linkArr) {
 }
 
 function scrollingOverSubsections() {
+    if(activeToc.getAttribute(`data-toc-visible`) == `0`) {
+        if(activeToc == tocMain) activeToc = tocSide;
+        else activeToc = tocMain;
+        calculateHeights();
+    }
     const screenCenter = window.scrollY + window.innerHeight/2;
     heightIndex = proximityOf(screenCenter, titleHeights);
     focusAt(heightIndex);
@@ -383,7 +420,7 @@ function initTocHighlight() {
         if(timer !== null) {
             clearTimeout(timer);        
         }
-        timer = setTimeout(scrollingOverSubsections, 300);
+        timer = setTimeout(scrollingOverSubsections, 100);
     })
 }
 
