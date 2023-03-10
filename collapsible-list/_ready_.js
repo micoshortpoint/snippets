@@ -1,3 +1,59 @@
+let toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+
+function createToc() {
+    const tocPlaceholder = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+    if(!tocPlaceholder) return;
+    const toc = document.createElement(`ul`);
+    const article = document.querySelector(`#article-body`);
+    let subsectionTitles = article.querySelectorAll(`h1[id]:not([id=""]):not(.solution-article-title), h2[id]:not([id=""]), h3[id]:not([id=""]), h4[id]:not([id=""]), h5[id]:not([id=""]), h6[id]:not([id=""])`);
+    subsectionTitles = Array.prototype.filter.call(subsectionTitles, 
+        (t => t.innerText != ``));
+    
+    let subsectionIds = Array.prototype.map.call(subsectionTitles,
+        (t => t.getAttribute(`id`)));
+
+    let subsectionTexts = Array.prototype.map.call(subsectionTitles,
+        (t => t.innerText));
+
+    let ulQueue = [toc];
+
+    subsectionTitles.forEach((t, i, arr) => {
+        let tag = t.tagName;
+        let next = arr[i+1] || arr[i];
+        let nextTag = next.tagName;
+        let depth = Number(tag[1]);
+        let nextDepth = Number(nextTag[1]);
+
+        let li = document.createElement(`li`);
+        let a = document.createElement(`a`);
+        let subUl = document.createElement(`ul`);
+
+        a.setAttribute(`href`, `#${subsectionIds[i]}`);
+        a.innerText = subsectionTexts[i];
+        li.append(a);
+        ulQueue[ulQueue.length - 1].append(li);
+
+        if(nextDepth > depth) {
+            ulQueue.push(subUl);
+            li.append(subUl);
+        }
+        else if(nextDepth < depth) {
+            let diff = depth - nextDepth;
+            for(let i = 0; i < diff; i++) {
+                if(ulQueue.length > 1) ulQueue.pop();
+            }
+        }
+
+    })
+
+    tocPlaceholder.parentElement.replaceChild(toc, tocPlaceholder);
+    // console.log(`old`, tocPlaceholder)
+    // console.log(`new`, toc);
+    toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+}
+
+createToc();
+
 // global vars
 const transitionDuration = 0.3;
 const liCollapseTransition = `height ${transitionDuration}s ease-out`;
@@ -53,10 +109,12 @@ const toggleCollapseList = (li) => {
     let openHeight = li.clientHeight;
     let startHeight = closedHeight;
     let finalHeight = openHeight;
+    li.querySelector(`ul`).style.pointerEvents = ``;
     
     if(li.classList.contains(`active`)) {
         startHeight = openHeight;
         finalHeight = closedHeight;
+        li.querySelector(`ul`).style.pointerEvents = `none`;
     }
     
     li.style.height = startHeight + `px`;
@@ -64,6 +122,7 @@ const toggleCollapseList = (li) => {
     const motionTransitions = () => {
         li.style.height = finalHeight + `px`;
         let finalTransformX = finalHeight - closedHeight - subUl.clientHeight;
+        // console.log(`finalHeight`, finalHeight, `closedHeight`, closedHeight, `subulclientHeight`, subUl.clientHeight, `finalTransformX`, finalTransformX);
         subUl.style.transform = `translate(0, ${finalTransformX}px)`;
     }
     
@@ -99,14 +158,14 @@ const closeSiblingLis = (li) => {
     const siblingLis = [...li.parentElement.children].filter(c => c != li);
     
     siblingLis.forEach((sibLi) => {
-        console.log(sibLi);
+        // console.log(sibLi);
         if(!sibLi.classList.contains(`collapsible`)) return;
         if(!sibLi.classList.contains(`active`)) return;
         toggleCollapseList(sibLi);
     })
 }
 
-function createToc(toc) {
+function collapsibleTocInit(toc) {
     if(!toc) return;
     if(toc.getAttribute(`data-toc-collapse-enabled`) == `1`) return;
     toc.setAttribute(`data-toc-visible`, `1`);
@@ -162,8 +221,9 @@ function createToc(toc) {
 
 }
 
-const toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
-createToc(toc0);
+collapsibleTocInit(toc0);
+
+
 
 const stickySidebar = document.querySelector('.solution-sidebar');
 const stickyTopValue = 40;
@@ -240,7 +300,7 @@ function initStickyToc() {
     if(!stickySidebarPrep()) return;
     if(stickySidebar.querySelector(`.fd-toc+ul`)) return;
     createTocCopy();
-    createToc(sidebarTocContainer.querySelector(`.fd-toc+ul`));
+    collapsibleTocInit(sidebarTocContainer.querySelector(`.fd-toc+ul`));
     sidebarTocContainer.querySelector(`.fd-toc+ul`).setAttribute(`data-toc-visible`, `0`);
 
     document.addEventListener('scroll', () =>{
@@ -258,6 +318,8 @@ let activeToc;
 function tocCaching() {
     if(!article) return false;
     subsectionTitles = article.querySelectorAll(`h1[id]:not([id=""]):not(.solution-article-title), h2[id]:not([id=""]), h3[id]:not([id=""]), h4[id]:not([id=""]), h5[id]:not([id=""]), h6[id]:not([id=""])`);
+    subsectionTitles = Array.prototype.filter.call(subsectionTitles, 
+        (t => t.innerText != ``));
     if(subsectionTitles.length < 1) return false;
     
     subsectionIds = Array.prototype.map.call(subsectionTitles,
@@ -295,33 +357,30 @@ function calculateHeights() {
 // Optionally, first create toc dynamically based on the headings (to eliminate chance of mapping error)
 
 function tocItemSelect(item) {
-    console.log(item);
+    // console.log(item);
     const parentToc = item.closest(`p.fd-toc+ul`);
-    parentToc.setAttribute(`data-processing-selected`, `1`);
     const currentSelected = parentToc.querySelector(`.selected.main-selected-leaf`);
     if(currentSelected) {
         currentSelected.classList.remove(`selected`, `main-selected-leaf`);
         let currentSelectedParent = currentSelected.parentElement.closest(`li.collapsible`);
         while(currentSelectedParent) {
             // currentSelectedParent.querySelector(`:scope > a`).classList.remove(`selected`);
-            console.log(`ISSUE: while  on tocItemSelect 1`)
+            // console.log(`ISSUE: while  on tocItemSelect 1`)
             currentSelectedParent = currentSelectedParent.parentElement.closest(`li.collapsible`);
         }
     }
-    console.log(`removed selected`, currentSelected, `new selected`, item);
+    // console.log(`removed selected`, currentSelected, `new selected`, item);
     item.classList.add(`selected`, `main-selected-leaf`);
     let parentLi = item.parentElement.closest(`li.collapsible`);
     while(parentLi) {
-        console.log(`ISSUE: while  on tocItemSelect 2`)
+        // console.log(`ISSUE: while  on tocItemSelect 2`)
         if(!parentLi.classList.contains(`active`)) {
-            toggleCollapseList(parentLi);
             closeSiblingLis(parentLi);
+            toggleCollapseList(parentLi);
         }
         // parentLi.querySelector(`:scope > a`).classList.add(`selected`);
         parentLi = parentLi.parentElement.closest(`li.collapsible`);
     }
-
-    parentToc.setAttribute(`data-processing-selected`, `0`);
 }
 
 
@@ -331,32 +390,32 @@ function proximityOf(num, arr) {
     let a = 0
     let z = arr.length - 1;
     let m = Math.floor((z + a) / 2);
-    console.log(a, arr[a], m, arr[m], z, arr[z]);
+    // console.log(a, arr[a], m, arr[m], z, arr[z]);
     let located = false;
     if(num >= arr[z]) return z;
     if(num <= arr[a]) return a;
     while(!located) {
-        console.log(`ISSUE: while  on proximityOf`)
+        // console.log(`ISSUE: while  on proximityOf`)
         if(z - a == 0) {
             located = true;
-            console.log(`answer`, a);
+            // console.log(`answer`, a);
             return a;
         }
         if(z - a == 1) {
             located = true;
-            console.log(`answer`, a);
+            // console.log(`answer`, a);
             // For the use case, return a. For general uses, return where it is closer.
             return a;
         }
         if(num > arr[m]) {
             a = m;
             m = Math.floor((z + a) / 2);
-            console.log(a, arr[a], m, arr[m], z, arr[z]);
+            // console.log(a, arr[a], m, arr[m], z, arr[z]);
         }
         else {
             z = m;
             m = Math.floor((z + a) / 2);
-            console.log(a, arr[a], m, arr[m], z, arr[z]);
+            // console.log(a, arr[a], m, arr[m], z, arr[z]);
         }
     }
 
@@ -365,7 +424,7 @@ function proximityOf(num, arr) {
 
 function focusAt(hIndex) {
     while(hIndex > 0 && subsectionTitles[hIndex - 1].getBoundingClientRect().top > 0) {
-        console.log(`ISSUE: while  on focusAt`)
+        // console.log(`ISSUE: while  on focusAt`)
         hIndex -= 1;
         // correction for titles still visible and closer to the top of the screen
     }
@@ -388,9 +447,9 @@ function tocClickEvent(event, linkArr) {
     event.preventDefault();
     let newIdIndex = Array.prototype.indexOf.call(linkArr, link);
     while(linkArr[newIdIndex].parentElement.parentElement.parentElement.classList.contains(`collapsible`)) {
-        console.log(`ISSUE: while  on tocClickEvent`)
-        console.log(`newIdIndex`, newIdIndex);
-        console.log(linkArr[newIdIndex]);
+        // console.log(`ISSUE: while  on tocClickEvent`)
+        // console.log(`newIdIndex`, newIdIndex);
+        // console.log(linkArr[newIdIndex]);
         newIdIndex -= 1;
     }
     const newId = subsectionIds[newIdIndex];

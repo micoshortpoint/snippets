@@ -90,6 +90,6 @@ html {
     scroll-padding-top: 1rem;
 }
 
-p.fd-toc+ul[data-processing-selected="0"] .selected {
+p.fd-toc+ul .selected {
     font-weight: 600;
 }
