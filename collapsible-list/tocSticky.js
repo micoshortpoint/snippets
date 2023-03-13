@@ -1,7 +1,7 @@
 const stickySidebar = document.querySelector('.solution-sidebar');
 const stickyTopValue = 40;
 
-let sidebarToc;
+let sidebarTocContainer;
 
 function stickySidebarPrep() {
     if(!stickySidebar) return false;
@@ -12,17 +12,21 @@ function stickySidebarPrep() {
 function createTocCopy() {
     const tocP = document.querySelector(`.solution-article .article_body p.fd-toc`);
     const tocUl = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+
     const solutionArticle = document.createElement(`div`);
     solutionArticle.classList.add(`item`, `solution-article`, `solution-article-toc-container`);
+
     const articleBody = document.createElement(`div`);
     articleBody.classList.add(`article_body`);
+
     const newTocUl = tocUl.cloneNode(true);
     newTocUl.setAttribute(`data-toc-collapse-enabled`, `0`);
+
     articleBody.append(tocP.cloneNode(true), newTocUl);
     solutionArticle.append(articleBody);
     stickySidebar.append(solutionArticle);
-    sidebarToc = document.querySelector(`.solution-article-toc-container`);
-    sidebarToc.style.opacity = `0`;
+    sidebarTocContainer = document.querySelector(`.solution-article-toc-container`);
+    sidebarTocContainer.style.opacity = `0`;
 }
 
 function scrolledPast(elem) {
@@ -30,30 +34,37 @@ function scrolledPast(elem) {
     return rect.bottom <= 0;
 }
 
-function relatedArticlesDisappear() {
+function relatedArticlesDisappear(disappear) {
     const relatedArticles = document.querySelector(`.solution-article-related_articles`);
-    if(stickyTopValue < stickySidebar.getBoundingClientRect().top) {
-        relatedArticles.style.opacity = ``;
-        relatedArticles.style.position = ``;
-        relatedArticles.style.pointerEvents = ``;
-    }
-    else {
+    if(disappear) {
         relatedArticles.style.opacity = `0`; 
         relatedArticles.style.position = `absolute`;
         relatedArticles.style.pointerEvents = `none`;
+    }
+    else {
+        relatedArticles.style.opacity = ``;
+        // keep it `absolute`
+        relatedArticles.style.pointerEvents = ``;
     }
     
 }
 
 function sidebarTocAppear() {
-    const tocUl = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
-    if(scrolledPast(tocUl)) {
-        sidebarToc.style.opacity = ``;
-        sidebarToc.style.pointerEvents = ``;
+    const tocMain = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+    const tocSide = document.querySelector(`.solution-sidebar p.fd-toc+ul`);
+    if(scrolledPast(tocMain)) {
+        relatedArticlesDisappear(true);
+        sidebarTocContainer.style.opacity = ``;
+        sidebarTocContainer.style.pointerEvents = ``;
+        tocMain.setAttribute(`data-toc-visible`, `0`);
+        tocSide.setAttribute(`data-toc-visible`, `1`);
     } 
     else {
-        sidebarToc.style.opacity = `0`;
-        sidebarToc.style.pointerEvents = `none`;
+        sidebarTocContainer.style.opacity = `0`;
+        sidebarTocContainer.style.pointerEvents = `none`;
+        tocMain.setAttribute(`data-toc-visible`, `1`);
+        tocSide.setAttribute(`data-toc-visible`, `0`);
+        relatedArticlesDisappear(false);
     } 
 }
 
@@ -62,11 +73,12 @@ function initStickyToc() {
     if(!stickySidebarPrep()) return;
     if(stickySidebar.querySelector(`.fd-toc+ul`)) return;
     createTocCopy();
-    createToc(sidebarToc.querySelector(`.fd-toc+ul`));
+    collapsibleTocInit(sidebarTocContainer.querySelector(`.fd-toc+ul`));
+    sidebarTocContainer.querySelector(`.fd-toc+ul`).setAttribute(`data-toc-visible`, `0`);
 
-    document.addEventListener('scroll', () =>{
-        relatedArticlesDisappear();
-        sidebarTocAppear();
+    document.addEventListener('scroll', () => {
+        setTimeout(sidebarTocAppear, 0);
+        // sidebarTocAppear();
     });
 }
 

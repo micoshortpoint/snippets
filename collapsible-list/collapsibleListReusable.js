@@ -1,3 +1,59 @@
+let toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+
+function createToc() {
+    const tocPlaceholder = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+    if(!tocPlaceholder) return;
+    const toc = document.createElement(`ul`);
+    const article = document.querySelector(`#article-body`);
+    let subsectionTitles = article.querySelectorAll(`h1[id]:not([id=""]):not(.solution-article-title), h2[id]:not([id=""]), h3[id]:not([id=""]), h4[id]:not([id=""]), h5[id]:not([id=""]), h6[id]:not([id=""])`);
+    subsectionTitles = Array.prototype.filter.call(subsectionTitles, 
+        (t => t.innerText != ``));
+    
+    let subsectionIds = Array.prototype.map.call(subsectionTitles,
+        (t => t.getAttribute(`id`)));
+
+    let subsectionTexts = Array.prototype.map.call(subsectionTitles,
+        (t => t.innerText));
+
+    let ulQueue = [toc];
+
+    subsectionTitles.forEach((t, i, arr) => {
+        let tag = t.tagName;
+        let next = arr[i+1] || arr[i];
+        let nextTag = next.tagName;
+        let depth = Number(tag[1]);
+        let nextDepth = Number(nextTag[1]);
+
+        let li = document.createElement(`li`);
+        let a = document.createElement(`a`);
+        let subUl = document.createElement(`ul`);
+
+        a.setAttribute(`href`, `#${subsectionIds[i]}`);
+        a.innerText = subsectionTexts[i];
+        li.append(a);
+        ulQueue[ulQueue.length - 1].append(li);
+
+        if(nextDepth > depth) {
+            ulQueue.push(subUl);
+            li.append(subUl);
+        }
+        else if(nextDepth < depth) {
+            let diff = depth - nextDepth;
+            for(let i = 0; i < diff; i++) {
+                if(ulQueue.length > 1) ulQueue.pop();
+            }
+        }
+
+    })
+
+    tocPlaceholder.parentElement.replaceChild(toc, tocPlaceholder);
+    console.log(`old`, tocPlaceholder)
+    console.log(`new`, toc);
+    toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
+}
+
+createToc();
+
 // global vars
 const transitionDuration = 0.3;
 const liCollapseTransition = `height ${transitionDuration}s ease-out`;
@@ -7,6 +63,7 @@ function hrefFixes(toc) {
         let href = decodeURIComponent(a.getAttribute(`href`));
         a.setAttribute(`href`, href);
         a.setAttribute(`data-descriptive-href`, href);
+        a.removeAttribute(`target`);
     })
 }
 
@@ -20,6 +77,7 @@ const modifyHref = (li) => {
     if(!parentHref) return;
     link0.setAttribute(`href`, parentHref);
     parentLink.setAttribute(`href`, ``);
+    parentLink.classList.add(`toc-disabled-link`);
 }
 
 // change list marker to dropdown
@@ -46,29 +104,35 @@ const toggleCollapseList = (li) => {
     const subUl = li.querySelector(`:scope > ul`);
     const subUlLis = subUl.querySelectorAll(`:scope > li`);
     const ulLen = subUlLis.length;
-    
+    subUl.style.display = ``;
     li.style.height = `auto`;
     let closedHeight = li.clientHeight - subUl.clientHeight;
     let openHeight = li.clientHeight;
     let startHeight = closedHeight;
     let finalHeight = openHeight;
+    subUl.style.pointerEvents = ``;
+
     
     if(li.classList.contains(`active`)) {
         startHeight = openHeight;
         finalHeight = closedHeight;
+        subUl.style.pointerEvents = `none`;
     }
     
     li.style.height = startHeight + `px`;
     
     const motionTransitions = () => {
+        void li.offsetWidth;   
         li.style.height = finalHeight + `px`;
         let finalTransformX = finalHeight - closedHeight - subUl.clientHeight;
+        console.log(`finalHeight`, finalHeight, `closedHeight`, closedHeight, `subulclientHeight`, subUl.clientHeight, `finalTransformX`, finalTransformX);
         subUl.style.transform = `translate(0, ${finalTransformX}px)`;
     }
     
     let opacTransDelay = (li.classList.contains(`active`)) ? transitionDuration/ulLen/2 : transitionDuration/ulLen; // faster transition. see notes
 
     const opacityTransitions = () => {
+        void li.offsetWidth;  
         for(let i = 0; i < ulLen; i++) {
             let duration = (opacTransDelay).toFixed(3) + `s`;
             let delay = (i*opacTransDelay).toFixed(3) + `s`;
@@ -82,14 +146,21 @@ const toggleCollapseList = (li) => {
         }
     }
 
-    setTimeout(motionTransitions, 0);
-    setTimeout(opacityTransitions, 0);
+    motionTransitions();
+    opacityTransitions();
+    // setTimeout(motionTransitions, 0);
+    // setTimeout(opacityTransitions, 0);
 
-    let clearFinalHeight = li.classList.contains(`active`) ? finalHeight + `px` : `auto`;
+    // let clearFinalHeight = li.classList.contains(`active`) ? finalHeight + `px` : `auto`;
+    let clearFinalHeight = `auto`;
 
     setTimeout(() => { li.classList.toggle(`active`); }, 0);
 
-    setTimeout(() => { li.style.height = clearFinalHeight; }, transitionDuration*1000 + 100);
+    setTimeout(() => {
+        if(!li.classList.contains(`active`)) subUl.style.display = `none`;
+        li.style.height = clearFinalHeight; 
+    }, 
+        transitionDuration*1000 + 100);
 
 }
 
@@ -98,16 +169,17 @@ const closeSiblingLis = (li) => {
     const siblingLis = [...li.parentElement.children].filter(c => c != li);
     
     siblingLis.forEach((sibLi) => {
-        // console.log(sibLi);
+        console.log(sibLi);
         if(!sibLi.classList.contains(`collapsible`)) return;
         if(!sibLi.classList.contains(`active`)) return;
         toggleCollapseList(sibLi);
     })
 }
 
-function createToc(toc) {
+function collapsibleTocInit(toc) {
     if(!toc) return;
     if(toc.getAttribute(`data-toc-collapse-enabled`) == `1`) return;
+    toc.setAttribute(`data-toc-visible`, `1`);
     hrefFixes(toc);
 
     // find li.has-child
@@ -124,7 +196,9 @@ function createToc(toc) {
         hasChildFilterLi(li, toc);
         modifyHref(li);
         li.classList.add(`active`);
-        toggleCollapseList(li);
+        setTimeout(() => {
+            toggleCollapseList(li);
+        }, 0)
     });
 
     // Debounce from https://www.freecodecamp.org/news/javascript-debounce-example/#:~:text=In%20JavaScript%2C%20a%20debounce%20function,all%20use%20cases%20for%20debounce.
@@ -144,20 +218,23 @@ function createToc(toc) {
 
     toc.addEventListener(`click`, (e) => {
         let a = e.target.closest(`a`);
-        let svg = e.target.closest(`svg`);
-        if(!a && !svg) return;
-        let li = e.target.closest(`li`);
-        if(!li || !li.classList.contains(`collapsible`)) return;
-        e.preventDefault();
-        debounce_leading(() => {
-            toggleCollapseList(li);
-            closeSiblingLis(li);
-        }, 300);
+        if(a && a.classList.contains(`toc-disabled-link`)) e.preventDefault();
+        setTimeout(() => {
+            if(toc.getAttribute(`data-toc-visible`) == `0`) return;
+            let svg = e.target.closest(`svg`);
+            if(!a && !svg) return;
+            let li = e.target.closest(`li`);
+            if(!li || !li.classList.contains(`collapsible`)) return;
+            e.preventDefault();
+            debounce_leading(() => {
+                toggleCollapseList(li);
+                closeSiblingLis(li);
+            }, 300);
+        }, 0)
     });
 
     toc.setAttribute(`data-toc-collapse-enabled`, `1`);
 
 }
 
-const toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`); // limit to toc only
-createToc(toc0);
+collapsibleTocInit(toc0);

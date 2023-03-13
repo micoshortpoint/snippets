@@ -1,3 +1,4 @@
+console.log = function() {}
 let toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
 
 function createToc() {
@@ -47,8 +48,8 @@ function createToc() {
     })
 
     tocPlaceholder.parentElement.replaceChild(toc, tocPlaceholder);
-    // console.log(`old`, tocPlaceholder)
-    // console.log(`new`, toc);
+    console.log(`old`, tocPlaceholder)
+    console.log(`new`, toc);
     toc0 = document.querySelector(`.solution-article .article_body p.fd-toc+ul`);
 }
 
@@ -77,6 +78,7 @@ const modifyHref = (li) => {
     if(!parentHref) return;
     link0.setAttribute(`href`, parentHref);
     parentLink.setAttribute(`href`, ``);
+    parentLink.classList.add(`toc-disabled-link`);
 }
 
 // change list marker to dropdown
@@ -103,32 +105,35 @@ const toggleCollapseList = (li) => {
     const subUl = li.querySelector(`:scope > ul`);
     const subUlLis = subUl.querySelectorAll(`:scope > li`);
     const ulLen = subUlLis.length;
-    
+    subUl.style.display = ``;
     li.style.height = `auto`;
     let closedHeight = li.clientHeight - subUl.clientHeight;
     let openHeight = li.clientHeight;
     let startHeight = closedHeight;
     let finalHeight = openHeight;
-    li.querySelector(`ul`).style.pointerEvents = ``;
+    subUl.style.pointerEvents = ``;
+
     
     if(li.classList.contains(`active`)) {
         startHeight = openHeight;
         finalHeight = closedHeight;
-        li.querySelector(`ul`).style.pointerEvents = `none`;
+        subUl.style.pointerEvents = `none`;
     }
     
     li.style.height = startHeight + `px`;
     
     const motionTransitions = () => {
+        void li.offsetWidth;   
         li.style.height = finalHeight + `px`;
         let finalTransformX = finalHeight - closedHeight - subUl.clientHeight;
-        // console.log(`finalHeight`, finalHeight, `closedHeight`, closedHeight, `subulclientHeight`, subUl.clientHeight, `finalTransformX`, finalTransformX);
+        console.log(`finalHeight`, finalHeight, `closedHeight`, closedHeight, `subulclientHeight`, subUl.clientHeight, `finalTransformX`, finalTransformX);
         subUl.style.transform = `translate(0, ${finalTransformX}px)`;
     }
     
     let opacTransDelay = (li.classList.contains(`active`)) ? transitionDuration/ulLen/2 : transitionDuration/ulLen; // faster transition. see notes
 
     const opacityTransitions = () => {
+        void li.offsetWidth;  
         for(let i = 0; i < ulLen; i++) {
             let duration = (opacTransDelay).toFixed(3) + `s`;
             let delay = (i*opacTransDelay).toFixed(3) + `s`;
@@ -142,14 +147,21 @@ const toggleCollapseList = (li) => {
         }
     }
 
-    setTimeout(motionTransitions, 0);
-    setTimeout(opacityTransitions, 0);
+    motionTransitions();
+    opacityTransitions();
+    // setTimeout(motionTransitions, 0);
+    // setTimeout(opacityTransitions, 0);
 
-    let clearFinalHeight = li.classList.contains(`active`) ? finalHeight + `px` : `auto`;
+    // let clearFinalHeight = li.classList.contains(`active`) ? finalHeight + `px` : `auto`;
+    let clearFinalHeight = `auto`;
 
     setTimeout(() => { li.classList.toggle(`active`); }, 0);
 
-    setTimeout(() => { li.style.height = clearFinalHeight; }, transitionDuration*1000 + 100);
+    setTimeout(() => {
+        if(!li.classList.contains(`active`)) subUl.style.display = `none`;
+        li.style.height = clearFinalHeight; 
+    }, 
+        transitionDuration*1000 + 100);
 
 }
 
@@ -158,7 +170,7 @@ const closeSiblingLis = (li) => {
     const siblingLis = [...li.parentElement.children].filter(c => c != li);
     
     siblingLis.forEach((sibLi) => {
-        // console.log(sibLi);
+        console.log(sibLi);
         if(!sibLi.classList.contains(`collapsible`)) return;
         if(!sibLi.classList.contains(`active`)) return;
         toggleCollapseList(sibLi);
@@ -185,7 +197,9 @@ function collapsibleTocInit(toc) {
         hasChildFilterLi(li, toc);
         modifyHref(li);
         li.classList.add(`active`);
-        toggleCollapseList(li);
+        setTimeout(() => {
+            toggleCollapseList(li);
+        }, 0)
     });
 
     // Debounce from https://www.freecodecamp.org/news/javascript-debounce-example/#:~:text=In%20JavaScript%2C%20a%20debounce%20function,all%20use%20cases%20for%20debounce.
@@ -204,17 +218,20 @@ function collapsibleTocInit(toc) {
 
 
     toc.addEventListener(`click`, (e) => {
-        if(toc.getAttribute(`data-toc-visible`) == `0`) return;
         let a = e.target.closest(`a`);
-        let svg = e.target.closest(`svg`);
-        if(!a && !svg) return;
-        let li = e.target.closest(`li`);
-        if(!li || !li.classList.contains(`collapsible`)) return;
-        e.preventDefault();
-        debounce_leading(() => {
-            toggleCollapseList(li);
-            closeSiblingLis(li);
-        }, 300);
+        if(a && a.classList.contains(`toc-disabled-link`)) e.preventDefault();
+        setTimeout(() => {
+            if(toc.getAttribute(`data-toc-visible`) == `0`) return;
+            let svg = e.target.closest(`svg`);
+            if(!a && !svg) return;
+            let li = e.target.closest(`li`);
+            if(!li || !li.classList.contains(`collapsible`)) return;
+            e.preventDefault();
+            debounce_leading(() => {
+                toggleCollapseList(li);
+                closeSiblingLis(li);
+            }, 300);
+        }, 0)
     });
 
     toc.setAttribute(`data-toc-collapse-enabled`, `1`);
@@ -303,8 +320,9 @@ function initStickyToc() {
     collapsibleTocInit(sidebarTocContainer.querySelector(`.fd-toc+ul`));
     sidebarTocContainer.querySelector(`.fd-toc+ul`).setAttribute(`data-toc-visible`, `0`);
 
-    document.addEventListener('scroll', () =>{
-        sidebarTocAppear();
+    document.addEventListener('scroll', () => {
+        setTimeout(sidebarTocAppear, 0);
+        // sidebarTocAppear();
     });
 }
 
@@ -351,13 +369,14 @@ function tocCaching() {
 function calculateHeights() {
     titleHeights = Array.prototype.map.call(subsectionTitles,
         (t => t.getBoundingClientRect().top - document.body.getBoundingClientRect().top));
+    console.log(`heights calculated`);
 }
 
 // Assuming headings, tocLinks, and headingsHeights indexes correspond properly
 // Optionally, first create toc dynamically based on the headings (to eliminate chance of mapping error)
 
 function tocItemSelect(item) {
-    // console.log(item);
+    console.log(item);
     const parentToc = item.closest(`p.fd-toc+ul`);
     const currentSelected = parentToc.querySelector(`.selected.main-selected-leaf`);
     if(currentSelected) {
@@ -365,15 +384,15 @@ function tocItemSelect(item) {
         let currentSelectedParent = currentSelected.parentElement.closest(`li.collapsible`);
         while(currentSelectedParent) {
             // currentSelectedParent.querySelector(`:scope > a`).classList.remove(`selected`);
-            // console.log(`ISSUE: while  on tocItemSelect 1`)
+            console.log(`ISSUE: while  on tocItemSelect 1`)
             currentSelectedParent = currentSelectedParent.parentElement.closest(`li.collapsible`);
         }
     }
-    // console.log(`removed selected`, currentSelected, `new selected`, item);
+    console.log(`removed selected`, currentSelected, `new selected`, item);
     item.classList.add(`selected`, `main-selected-leaf`);
     let parentLi = item.parentElement.closest(`li.collapsible`);
     while(parentLi) {
-        // console.log(`ISSUE: while  on tocItemSelect 2`)
+        console.log(`ISSUE: while  on tocItemSelect 2`)
         if(!parentLi.classList.contains(`active`)) {
             closeSiblingLis(parentLi);
             toggleCollapseList(parentLi);
@@ -390,32 +409,32 @@ function proximityOf(num, arr) {
     let a = 0
     let z = arr.length - 1;
     let m = Math.floor((z + a) / 2);
-    // console.log(a, arr[a], m, arr[m], z, arr[z]);
+    console.log(a, arr[a], m, arr[m], z, arr[z]);
     let located = false;
     if(num >= arr[z]) return z;
     if(num <= arr[a]) return a;
     while(!located) {
-        // console.log(`ISSUE: while  on proximityOf`)
+        console.log(`ISSUE: while  on proximityOf`)
         if(z - a == 0) {
             located = true;
-            // console.log(`answer`, a);
+            console.log(`answer`, a);
             return a;
         }
         if(z - a == 1) {
             located = true;
-            // console.log(`answer`, a);
+            console.log(`answer`, a);
             // For the use case, return a. For general uses, return where it is closer.
             return a;
         }
         if(num > arr[m]) {
             a = m;
             m = Math.floor((z + a) / 2);
-            // console.log(a, arr[a], m, arr[m], z, arr[z]);
+            console.log(a, arr[a], m, arr[m], z, arr[z]);
         }
         else {
             z = m;
             m = Math.floor((z + a) / 2);
-            // console.log(a, arr[a], m, arr[m], z, arr[z]);
+            console.log(a, arr[a], m, arr[m], z, arr[z]);
         }
     }
 
@@ -423,15 +442,17 @@ function proximityOf(num, arr) {
 }
 
 function focusAt(hIndex) {
+
     while(hIndex > 0 && subsectionTitles[hIndex - 1].getBoundingClientRect().top > 0) {
-        // console.log(`ISSUE: while  on focusAt`)
+        console.log(`ISSUE: while  on focusAt`)
         hIndex -= 1;
         // correction for titles still visible and closer to the top of the screen
     }
-    if(activeToc == tocMain) {
-        tocItemSelect(tocLinksMain[hIndex]);
-    }
-    else {
+    console.log(`final hIndex`, hIndex);
+    // if(activeToc == tocMain) {
+    //     tocItemSelect(tocLinksMain[hIndex]);
+    // }
+    if(activeToc == tocSide)  {
         tocItemSelect(tocLinksSide[hIndex]);
     }
 }
@@ -443,28 +464,47 @@ function tocClickEvent(event, linkArr) {
     if(!link) return;
     const href = link.getAttribute(`href`);
     if(!href) return;
-    if(Array.prototype.indexOf.call(subsectionIds, href.slice(1)) != -1) return;
+    // if(Array.prototype.indexOf.call(subsectionIds, href.slice(1)) != -1) return;
+    // event.preventDefault();
+    // let newIdIndex = Array.prototype.indexOf.call(linkArr, link);
+    // while(linkArr[newIdIndex].parentElement.parentElement.parentElement.classList.contains(`collapsible`)) {
+    //     console.log(`ISSUE: while  on tocClickEvent`)
+    //     console.log(`newIdIndex`, newIdIndex);
+    //     console.log(linkArr[newIdIndex]);
+    //     newIdIndex -= 1;
+    // }
+    // const newId = subsectionIds[newIdIndex];
+    // link.setAttribute(`href`, `#${newId}`);
+    // link.click();
+}
+
+function tocClickEvent2(event) {
+    const link = event.target.closest(`a`);
+    if(!link) return;
+    let href = link.getAttribute(`href`);
+    if(!href) return;
     event.preventDefault();
-    let newIdIndex = Array.prototype.indexOf.call(linkArr, link);
-    while(linkArr[newIdIndex].parentElement.parentElement.parentElement.classList.contains(`collapsible`)) {
-        // console.log(`ISSUE: while  on tocClickEvent`)
-        // console.log(`newIdIndex`, newIdIndex);
-        // console.log(linkArr[newIdIndex]);
-        newIdIndex -= 1;
-    }
-    const newId = subsectionIds[newIdIndex];
-    link.setAttribute(`href`, `#${newId}`);
-    link.click();
+    href = href.slice(1);
+    let scrollIndex = subsectionIds.indexOf(href);
+    scrollTo(0, titleHeights[scrollIndex] - 16);
 }
 
 function scrollingOverSubsections() {
     if(activeToc.getAttribute(`data-toc-visible`) == `0`) {
         if(activeToc == tocMain) activeToc = tocSide;
         else activeToc = tocMain;
+        console.log(`calculate height because toc visible switched`);
+        calculateHeights();
+    }
+    let correctFirstHeight = subsectionTitles[0].getBoundingClientRect().top - document.body.getBoundingClientRect().top;
+    let compareFirstHeight = titleHeights[0];
+    if(Math.abs(compareFirstHeight - correctFirstHeight) > 2) {
+        console.log(`calculate height because first height wrong`);
         calculateHeights();
     }
     const screenCenter = window.scrollY + window.innerHeight/2;
     heightIndex = proximityOf(screenCenter, titleHeights);
+    console.log(`titles`, subsectionIds, `hrefs`, tocLinkHrefs, `index`, heightIndex, `heights`, titleHeights);
     focusAt(heightIndex);
 }
 
@@ -472,15 +512,25 @@ function initTocHighlight() {
     if(!tocCaching()) return;
 
     let timer = null;
-
-    tocMain.addEventListener(`click`, event => tocClickEvent(event, tocLinksMain));
-    tocSide.addEventListener(`click`, event => tocClickEvent(event, tocLinksSide));
+    
+    tocMain.addEventListener(`click`, event => {
+        tocClickEvent(event, tocLinksMain);
+        tocClickEvent2(event);
+    });
+    tocSide.addEventListener(`click`, event => {
+        tocClickEvent(event, tocLinksSide);
+        tocClickEvent2(event);
+    });
+    article.addEventListener(`resize`, () => {
+        console.log(`calculate height because article resize`);
+        calculateHeights();
+    });
     window.addEventListener(`resize`, calculateHeights);
     document.addEventListener(`scroll`, () => {
         if(timer !== null) {
             clearTimeout(timer);        
         }
-        timer = setTimeout(scrollingOverSubsections, 100);
+        timer = setTimeout(scrollingOverSubsections, 200);
     })
 }
 
